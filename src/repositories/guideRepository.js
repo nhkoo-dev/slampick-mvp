@@ -1,0 +1,66 @@
+const GUIDES = [
+  {
+    id: 'cn-beauty-pharmacy',
+    region: '중화권',
+    category: '중화권 × 관광객-뷰티',
+    headerColor: 'bg-rose-600',
+    badge: { icon: '📈', label: '결과 기반' },
+    title: '약국 vs 올리브영 비교 시리즈',
+    description: "왜 지금: '药妆达人' 검색 콘텐츠 급상승 중",
+    metrics: ['매장 1:1 비교', '무음 자막', '방문형 릴스 3편'],
+  },
+  {
+    id: 'en-pharmacist-qna',
+    region: '영어권',
+    category: '영어권 × 서울후케어',
+    headerColor: 'bg-emerald-600',
+    badge: { icon: '✓', label: '검증됨 · OWM 82만뷰' },
+    title: '전문가 Q&A · 약사 신뢰형',
+    description: '왜 지금: 전문가 권위 콘텐츠 반응률!',
+    metrics: ['Q&A: 약사 토크형태', '정보형 릴스 2편'],
+  },
+  {
+    id: 'en-tourist-realtalk',
+    region: '영어권',
+    category: '영어권 × 관광객',
+    headerColor: 'bg-blue-600',
+    badge: { icon: '🛍️', label: '관광 기반' },
+    title: '현지인이 진짜 쓰는 것',
+    description: '왜 지금: 길거리 인터뷰 포맷 상승',
+    metrics: ['인터뷰', '진열 강조', '방문형 릴스 2편'],
+  },
+  {
+    id: 'us-street-2030',
+    region: 'US-글로벌',
+    category: 'US-글로벌 × 2030 스트리터',
+    headerColor: 'bg-violet-700',
+    badge: { icon: '🔥', label: '트렌드 기반' },
+    title: '스트리트 캐주얼 룩북',
+    description: '왜 지금: Z세대 스트리트 룩 챌린지 확산',
+    metrics: ['룩북형', '비포애프터', '쇼츠 3편'],
+  },
+  {
+    id: 'cn-unboxing-haul',
+    region: '중화권',
+    category: '중화권 × K-뷰티 언박싱',
+    headerColor: 'bg-pink-600',
+    badge: { icon: '📦', label: '언박싱' },
+    title: 'K-뷰티 언박싱 하울',
+    description: '왜 지금: 샤오홍슈 하울 콘텐츠 반응 상승',
+    metrics: ['언박싱형', '실사용 후기', '릴스 2편'],
+  },
+  {
+    id: 'us-beauty-device',
+    region: 'US-글로벌',
+    category: 'US-글로벌 × 뷰티 디바이스',
+    headerColor: 'bg-cyan-700',
+    badge: { icon: '💡', label: '제품 데모' },
+    title: '뷰티 디바이스 데모 리뷰',
+    description: '왜 지금: 홈케어 디바이스 수요 증가',
+    metrics: ['데모형', '비교 리뷰', '릴스 3편'],
+  },
+];
+
+export async function getGuides() {
+  return GUIDES;
+}

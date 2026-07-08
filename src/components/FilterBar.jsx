@@ -1,7 +1,8 @@
-function FilterPill({ label, active }) {
+function FilterPill({ label, active, onClick }) {
   return (
     <button
       type="button"
+      onClick={onClick}
       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
         active
           ? 'bg-gray-900 text-white'
@@ -13,37 +14,60 @@ function FilterPill({ label, active }) {
   );
 }
 
-export default function FilterBar() {
+const REGIONS = ['전체', 'US', '중화권', '일본'];
+const TIERS = ['전체', '메가', '미드', '나노'];
+const AXES = ['전체', '가용성', '적합도', '성과'];
+
+export default function FilterBar({
+  selectedRegion,
+  setSelectedRegion,
+  selectedTier,
+  setSelectedTier,
+  selectedAxis,
+  setSelectedAxis,
+}) {
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-4">
       <div className="flex flex-wrap items-center gap-3">
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           지역
         </span>
-        <FilterPill label="전체" active />
-        <FilterPill label="US" />
-        <FilterPill label="중화권" />
-        <FilterPill label="일본" />
+        {REGIONS.map((region) => (
+          <FilterPill
+            key={region}
+            label={region}
+            active={selectedRegion === region}
+            onClick={() => setSelectedRegion(region)}
+          />
+        ))}
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           티어
         </span>
-        <FilterPill label="전체" active />
-        <FilterPill label="메가" />
-        <FilterPill label="미드" />
-        <FilterPill label="나노" />
+        {TIERS.map((tier) => (
+          <FilterPill
+            key={tier}
+            label={tier}
+            active={selectedTier === tier}
+            onClick={() => setSelectedTier(tier)}
+          />
+        ))}
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           3축
         </span>
-        <FilterPill label="전체" active />
-        <FilterPill label="가용성" />
-        <FilterPill label="적합도" />
-        <FilterPill label="성과" />
+        {AXES.map((axis) => (
+          <FilterPill
+            key={axis}
+            label={axis}
+            active={selectedAxis === axis}
+            onClick={() => setSelectedAxis(axis)}
+          />
+        ))}
       </div>
 
       <p className="mt-3 text-xs text-gray-400">

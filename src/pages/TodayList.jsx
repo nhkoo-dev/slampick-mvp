@@ -6,6 +6,9 @@ import { getInfluencers } from '../repositories/influencerRepository';
 
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
+  const [selectedRegion, setSelectedRegion] = useState('전체');
+  const [selectedTier, setSelectedTier] = useState('전체');
+  const [selectedAxis, setSelectedAxis] = useState('전체');
 
   useEffect(() => {
       async function load() {
@@ -15,6 +18,16 @@ export default function TodayList() {
 
       load();
   }, []);
+
+  const filteredInfluencers = influencers.filter((influencer) => {
+    const matchesRegion =
+      selectedRegion === '전체' || influencer.region === selectedRegion;
+    const matchesTier =
+      selectedTier === '전체' || influencer.tier === selectedTier;
+
+    return matchesRegion && matchesTier;
+  });
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -41,11 +54,18 @@ export default function TodayList() {
         </div>
 
         <div className="mt-5">
-          <FilterBar />
+          <FilterBar
+            selectedRegion={selectedRegion}
+            setSelectedRegion={setSelectedRegion}
+            selectedTier={selectedTier}
+            setSelectedTier={setSelectedTier}
+            selectedAxis={selectedAxis}
+            setSelectedAxis={setSelectedAxis}
+          />
         </div>
 
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {influencers.map((influencer) => (
+          {filteredInfluencers.map((influencer) => (
             <InfluencerCard key={influencer.handle} {...influencer} />
           ))}
         </div>

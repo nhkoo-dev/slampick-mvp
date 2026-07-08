@@ -2,23 +2,19 @@ import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import FilterBar from '../components/FilterBar';
 import InfluencerCard from '../components/InfluencerCard';
-import { getTodayInfluencers } from '../repositories/influencerRepository';
+import { getInfluencers } from '../repositories/influencerRepository';
 
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
 
   useEffect(() => {
-    let isMounted = true;
+      async function load() {
+          const data = await getInfluencers();
+          setInfluencers(data);
+      }
 
-    getTodayInfluencers().then((data) => {
-      if (isMounted) setInfluencers(data);
-    });
-
-    return () => {
-      isMounted = false;
-    };
+      load();
   }, []);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />

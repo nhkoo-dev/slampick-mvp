@@ -4,18 +4,18 @@ export async function getInfluencers() {
   const { data, error } = await supabase
     .from('influencers')
     .select(`
-      influencer_id,
-      name,
-      platform,
-      country,
-      instagram_followers,
-      cover_url
+        influencer_id,
+        name,
+        handle,
+        platform,
+        region,
+        tier,
+        real_views,
+        engagement_rate,
+        followers,
+        thumbnail_url
     `)
-    .not('name', 'is', null)
-    .not('platform', 'is', null)
-    .not('country', 'is', null)
-    .not('instagram_followers', 'is', null)
-    .not('cover_url', 'is', null)
+
 
   if (error) throw error;
 

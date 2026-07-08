@@ -20,10 +20,14 @@ function Badge({ icon, label, tone }) {
 export default function InfluencerCard({
     influencer_id,
     name,
+    handle,
     platform,
-    country,
-    instagram_followers,
-    cover_url
+    region,
+    tier,
+    real_views,
+    engagement_rate,
+    followers,
+    thumbnail_url
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -32,7 +36,7 @@ export default function InfluencerCard({
 
     <div className="relative h-40 w-full overflow-hidden bg-gray-100">
       <img
-        src={cover_url}
+        src={thumbnail_url}
         alt={name}
         className="h-full w-full object-cover"
       />
@@ -42,18 +46,26 @@ export default function InfluencerCard({
       </span>
 
       <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-xs">
-        {country}
+        {region}
       </span>
     </div>
 
     <div className="flex flex-1 flex-col gap-3 p-5">
       <div>
-        <h3 className="text-base font-bold text-gray-900">{name}</h3>
-        <p className="text-sm text-gray-400">@{influencer_id}</p>
+        <h3 className="text-base font-bold text-gray-900">
+          {name}
+        </h3>
+
+        <p className="text-sm text-gray-400">
+          @{influencer_id}
+        </p>
       </div>
 
-      <div className="flex items-center justify-between text-sm text-gray-500">
-        <span>팔로워 {instagram_followers}</span>
+      <div className="space-y-1 text-sm text-gray-500">
+        <p>팔로워 {followers?.toLocaleString()}</p>
+        <p>조회수 {real_views?.toLocaleString()}</p>
+        <p>참여율 {engagement_rate}%</p>
+        <p>티어 {tier}</p>
       </div>
 
       <div className="mt-auto flex items-center gap-2 pt-2">
@@ -77,6 +89,7 @@ export default function InfluencerCard({
           연락하기
         </button>
       </div>
+
     </div>
 
   </div>

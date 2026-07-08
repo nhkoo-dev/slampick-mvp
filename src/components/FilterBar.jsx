@@ -36,6 +36,16 @@ export default function FilterBar() {
         <FilterPill label="나노" />
       </div>
 
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
+          3축
+        </span>
+        <FilterPill label="전체" active />
+        <FilterPill label="가용성" />
+        <FilterPill label="적합도" />
+        <FilterPill label="성과" />
+      </div>
+
       <p className="mt-3 text-xs text-gray-400">
         필터는 월 1회 변경 가능 — 정한 조건으로 슬램픽이 계속 찾아 매일 채워요.
       </p>

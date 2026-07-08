@@ -14,6 +14,17 @@ function FilterPill({ label, active, onClick }) {
   );
 }
 
+function FilterGroup({ options, selected, onSelect }) {
+  return options.map((option) => (
+    <FilterPill
+      key={option}
+      label={option}
+      active={selected === option}
+      onClick={() => onSelect(option)}
+    />
+  ));
+}
+
 const REGIONS = ['전체', 'US', '중화권', '일본'];
 const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
@@ -32,42 +43,33 @@ export default function FilterBar({
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           지역
         </span>
-        {REGIONS.map((region) => (
-          <FilterPill
-            key={region}
-            label={region}
-            active={selectedRegion === region}
-            onClick={() => setSelectedRegion(region)}
-          />
-        ))}
+        <FilterGroup
+          options={REGIONS}
+          selected={selectedRegion}
+          onSelect={setSelectedRegion}
+        />
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           티어
         </span>
-        {TIERS.map((tier) => (
-          <FilterPill
-            key={tier}
-            label={tier}
-            active={selectedTier === tier}
-            onClick={() => setSelectedTier(tier)}
-          />
-        ))}
+        <FilterGroup
+          options={TIERS}
+          selected={selectedTier}
+          onSelect={setSelectedTier}
+        />
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           3축
         </span>
-        {AXES.map((axis) => (
-          <FilterPill
-            key={axis}
-            label={axis}
-            active={selectedAxis === axis}
-            onClick={() => setSelectedAxis(axis)}
-          />
-        ))}
+        <FilterGroup
+          options={AXES}
+          selected={selectedAxis}
+          onSelect={setSelectedAxis}
+        />
       </div>
 
       <p className="mt-3 text-xs text-gray-400">

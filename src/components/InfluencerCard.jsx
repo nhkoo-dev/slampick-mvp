@@ -34,7 +34,7 @@ export default function InfluencerCard({
  return (
   <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
 
-    <div className="relative h-40 w-full overflow-hidden bg-gray-100">
+    <div className="relative aspect-[9/16] w-full overflow-hidden bg-gray-100">
       <img
         src={thumbnail_url}
         alt={name}

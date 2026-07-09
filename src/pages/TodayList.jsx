@@ -33,11 +33,28 @@ export default function TodayList() {
       <Header />
 
       <main className="mx-auto max-w-6xl px-6 py-8">
-        <div className="flex items-baseline gap-3">
-          <h1 className="text-2xl font-extrabold text-gray-900">
-            오늘의 리스트
-          </h1>
-          <span className="text-sm text-gray-400">2026.07.02</span>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-baseline gap-3">
+            <h1 className="text-2xl font-extrabold text-gray-900">
+              오늘의 리스트
+            </h1>
+            <span className="text-sm text-gray-400">2026.07.02</span>
+          </div>
+
+          <div className="flex w-full items-center justify-end gap-2 sm:w-auto">
+            <button
+              type="button"
+              className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white"
+            >
+              구독(실시간)
+            </button>
+            <button
+              type="button"
+              className="rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700"
+            >
+              체험(무료)
+            </button>
+          </div>
         </div>
         <p className="mt-1 text-sm text-gray-500">
           오늘{' '}

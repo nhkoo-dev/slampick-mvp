@@ -33,21 +33,6 @@ export default function Header() {
               <TabLink to={ROUTES.GUIDE}>전략 시딩 가이드</TabLink>
             </nav>
           </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white"
-            >
-              구독(실시간)
-            </button>
-            <button
-              type="button"
-              className="rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700"
-            >
-              체험(무료)
-            </button>
-          </div>
         </div>
       </div>
     </header>

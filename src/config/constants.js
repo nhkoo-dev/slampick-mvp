@@ -4,5 +4,6 @@ export const ROUTES = {
   TODAY_LIST: '/',
   GUIDE: '/guide',
   LOGIN: '/login',
+  SIGNUP: '/signup',
   ADMIN: '/admin',
 };

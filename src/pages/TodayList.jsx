@@ -9,6 +9,12 @@ const MODES = [
   { value: 'trial', label: '체험(무료)' },
 ];
 
+const TIER_MAP = {
+  메가: 'MEGA',
+  미드: 'MID',
+  나노: 'NANO',
+};
+
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
   const [mode, setMode] = useState('premium');
@@ -19,7 +25,8 @@ export default function TodayList() {
   useEffect(() => {
       async function load() {
           const data = await getInfluencers(mode);
-          console.log(data);   // 추가
+          //console.log(data);
+          console.log(data.map(i => i.tier));   // 추가
           setInfluencers(data);
       }
 
@@ -30,7 +37,7 @@ export default function TodayList() {
     const matchesRegion =
       selectedRegion === '전체' || influencer.region === selectedRegion;
     const matchesTier =
-      selectedTier === '전체' || influencer.tier === selectedTier;
+      selectedTier === '전체' || influencer.tier === TIER_MAP[selectedTier];
 
     return matchesRegion && matchesTier;
   });

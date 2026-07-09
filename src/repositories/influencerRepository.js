@@ -21,6 +21,7 @@ export async function getInfluencers(mode = 'premium') {
         followers,
         thumbnail_url
     `)
+  .not('tier', 'is', null)
 
 
   if (error) throw error;

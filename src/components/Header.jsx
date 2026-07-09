@@ -52,20 +52,12 @@ export default function Header() {
                 로그아웃
               </button>
             ) : (
-              <>
-                <button
-                  onClick={() => navigate(ROUTES.LOGIN)}
-                  className="text-sm font-medium text-gray-500 hover:text-gray-900"
-                >
-                  로그인
-                </button>
-                <button
-                  onClick={() => navigate(ROUTES.SIGNUP)}
-                  className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
-                >
-                  회원가입
-                </button>
-              </>
+              <button
+                onClick={() => navigate(ROUTES.LOGIN)}
+                className="rounded-full bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
+              >
+                로그인/회원가입
+              </button>
             )}
           </div>
         </div>

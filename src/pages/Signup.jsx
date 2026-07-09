@@ -3,12 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import { ROUTES } from '../config/constants';
 import { supabase } from '../supabase/client';
+import { createBrand } from '../repositories/brandRepository';
 
 export default function Signup() {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [userType, setUserType] = useState('brand');
+  const [brandName, setBrandName] = useState('');
 
   const signUp = async () => {
     if (password !== passwordConfirm) {
@@ -16,7 +19,12 @@ export default function Signup() {
       return;
     }
 
-    const { error } = await supabase.auth.signUp({
+    if (userType === 'brand' && !brandName) {
+      alert('브랜드명을 입력해주세요.');
+      return;
+    }
+
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
@@ -24,6 +32,18 @@ export default function Signup() {
     if (error) {
       alert(error.message);
       return;
+    }
+
+    if (userType === 'brand') {
+      try {
+        await createBrand({
+          id: data.user.id,
+          name: brandName,
+        });
+      } catch (err) {
+        alert(err.message);
+        return;
+      }
     }
 
     navigate(ROUTES.LOGIN);
@@ -61,6 +81,42 @@ export default function Signup() {
           onChange={(e) => setPasswordConfirm(e.target.value)}
           className="mb-6 rounded-lg border p-3"
         />
+
+        <div className="mb-4">
+          <p className="mb-2 text-sm font-medium text-gray-700">회원 유형</p>
+          <div className="flex items-center gap-6">
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="radio"
+                name="userType"
+                value="brand"
+                checked={userType === 'brand'}
+                onChange={() => setUserType('brand')}
+              />
+              브랜드
+            </label>
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="radio"
+                name="userType"
+                value="influencer"
+                checked={userType === 'influencer'}
+                onChange={() => setUserType('influencer')}
+              />
+              인플루언서
+            </label>
+          </div>
+        </div>
+
+        {userType === 'brand' && (
+          <input
+            type="text"
+            placeholder="브랜드명"
+            value={brandName}
+            onChange={(e) => setBrandName(e.target.value)}
+            className="mb-6 rounded-lg border p-3"
+          />
+        )}
 
         <button
           onClick={signUp}

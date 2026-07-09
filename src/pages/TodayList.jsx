@@ -15,6 +15,15 @@ const TIER_MAP = {
   나노: 'NANO',
 };
 
+const REGION_MAP = {
+  US: "US",
+  중화권: "CN",
+  일본: "JP",
+  중동: "UAE" 
+
+}
+
+
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
   const [mode, setMode] = useState('premium');
@@ -35,7 +44,7 @@ export default function TodayList() {
 
   const filteredInfluencers = influencers.filter((influencer) => {
     const matchesRegion =
-      selectedRegion === '전체' || influencer.region === selectedRegion;
+      selectedRegion === '전체' || influencer.region === REGION_MAP[selectedRegion];
     const matchesTier =
       selectedTier === '전체' || influencer.tier === TIER_MAP[selectedTier];
 

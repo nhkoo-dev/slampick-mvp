@@ -25,7 +25,7 @@ function FilterGroup({ options, selected, onSelect }) {
   ));
 }
 
-const REGIONS = ['전체', 'US', '중화권', '일본'];
+const REGIONS = ['전체', 'US', '중화권', '일본', '중동'];
 const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
 

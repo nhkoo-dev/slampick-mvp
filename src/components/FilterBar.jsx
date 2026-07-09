@@ -1,4 +1,4 @@
-function FilterPill({ label, active, onClick }) {
+export function FilterPill({ label, active, onClick }) {
   return (
     <button
       type="button"

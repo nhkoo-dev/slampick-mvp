@@ -1,8 +1,14 @@
 import { supabase } from '../supabase/client';
 
-export async function getInfluencers() {
+const TABLE_BY_MODE = {
+  premium: 'influencers',
+  trial: 'trial_influencers',
+};
+
+
+export async function getInfluencers(mode = 'premium') {
   const { data, error } = await supabase
-    .from('influencers')
+    .from(TABLE_BY_MODE[mode])
     .select(`
         influencer_id,
         name,
@@ -18,6 +24,8 @@ export async function getInfluencers() {
 
 
   if (error) throw error;
+  console.log(mode);
+  console.log(TABLE_BY_MODE[mode]);
 
   return data;
 }

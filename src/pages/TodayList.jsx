@@ -1,23 +1,30 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
-import FilterBar from '../components/FilterBar';
+import FilterBar, { FilterPill } from '../components/FilterBar';
 import InfluencerCard from '../components/InfluencerCard';
 import { getInfluencers } from '../repositories/influencerRepository';
 
+const MODES = [
+  { value: 'premium', label: '구독(실시간)' },
+  { value: 'trial', label: '체험(무료)' },
+];
+
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
+  const [mode, setMode] = useState('premium');
   const [selectedRegion, setSelectedRegion] = useState('전체');
   const [selectedTier, setSelectedTier] = useState('전체');
   const [selectedAxis, setSelectedAxis] = useState('전체');
 
   useEffect(() => {
       async function load() {
-          const data = await getInfluencers();
+          const data = await getInfluencers(mode);
+          console.log(data);   // 추가
           setInfluencers(data);
       }
 
       load();
-  }, []);
+  }, [mode]);
 
   const filteredInfluencers = influencers.filter((influencer) => {
     const matchesRegion =
@@ -42,18 +49,14 @@ export default function TodayList() {
           </div>
 
           <div className="flex w-full items-center justify-end gap-2 sm:w-auto">
-            <button
-              type="button"
-              className="rounded-full bg-black px-4 py-2 text-xs font-semibold text-white"
-            >
-              구독(실시간)
-            </button>
-            <button
-              type="button"
-              className="rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-700"
-            >
-              체험(무료)
-            </button>
+            {MODES.map((m) => (
+              <FilterPill
+                key={m.value}
+                label={m.label}
+                active={mode === m.value}
+                onClick={() => setMode(m.value)}
+              />
+            ))}
           </div>
         </div>
         <p className="mt-1 text-sm text-gray-500">
@@ -83,7 +86,7 @@ export default function TodayList() {
 
         <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredInfluencers.map((influencer) => (
-            <InfluencerCard key={influencer.handle} {...influencer} />
+            <InfluencerCard key={influencer.influencer_id} {...influencer} />
           ))}
         </div>
       </main>

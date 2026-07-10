@@ -25,12 +25,12 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Header />
 
       <main className="mx-auto max-w-md px-6 py-16">
-        <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-          <h1 className="mb-8 text-center text-2xl font-extrabold text-gray-900">
+        <div className="rounded-2xl border border-border bg-surface p-8 shadow-sm">
+          <h1 className="mb-8 text-center text-2xl font-extrabold text-text">
             로그인
           </h1>
 
@@ -39,7 +39,7 @@ export default function Login() {
             placeholder="이메일"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-4 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-colors focus:border-gray-400"
+            className="mb-4 w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder-placeholder outline-none transition-colors focus:border-border-focus"
           />
 
           <input
@@ -47,18 +47,18 @@ export default function Login() {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mb-6 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-colors focus:border-gray-400"
+            className="mb-6 w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder-placeholder outline-none transition-colors focus:border-border-focus"
           />
 
           <Button variant="dark" size="block" onClick={signIn}>
             로그인
           </Button>
 
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-text-secondary">
             회원이 아니신가요?{' '}
             <Link
               to={ROUTES.SIGNUP}
-              className="font-semibold text-gray-900 underline-offset-2 transition-colors hover:text-black hover:underline"
+              className="font-semibold text-text underline-offset-2 transition-colors hover:text-black hover:underline"
             >
               회원가입
             </Link>

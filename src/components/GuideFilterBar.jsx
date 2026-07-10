@@ -7,8 +7,8 @@ function FilterPill({ label, active, onClick }) {
       onClick={onClick}
       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
         active
-          ? 'bg-gray-900 text-white'
-          : 'bg-white text-gray-600 border border-gray-300 hover:border-gray-400'
+          ? 'bg-badge-active text-text-inverse'
+          : 'bg-surface text-text-muted border border-border-strong hover:border-border-strong'
       }`}
     >
       {label}

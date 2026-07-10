@@ -1,14 +1,30 @@
 @import "tailwindcss";
 
 @theme {
+  /* Brand */
   --color-primary: #4733FF;
   --color-primary-hover: #5B47FF;
 
-  --color-surface: #FFFFFF;
-  --color-background: #F8FAFC;
+  /* Surface */
+  --color-background: #F8FAFC; /*살짝 푸른끼 있는 흰색*/
+  --color-surface: #FCFCFD;
 
-  --color-text: #111827;
-  --color-text-secondary: #6B7280
+  /* Text */
+  --color-text: #334155;  /*살짝 푸른끼 섞인 검은색*/
+  --color-text-secondary: #6B7280;  /*회색*/
+  --color-text-muted: #4B5563;  /*진회색*/
+  --color-text-inverse: #FCFCFD;
+
+  /* Border */
+  --color-border: #E5E7EB;  /*연한회색*/
+  --color-border-strong: #D1D5DB; /*위보다 조금 푸른끼가 섞인 연한회색*/
+  --color-border-focus: #9CA3AF; /*위보다 푸른끼와 검은색이 더 섞인 회색*/
+
+  /* Placeholder */
+  --color-placeholder: #9CA3AF;
+
+  /* Badge */
+  --color-badge-active: #111827; 
 
   --font-sans: 'Pretendard', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;

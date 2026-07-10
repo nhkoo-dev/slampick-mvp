@@ -55,17 +55,17 @@ export default function DashboardMockup() {
       </div>
 
       {/* TodayList를 축소한 대시보드 프리뷰 */}
-      <div className="rounded-[20px] bg-white p-4 shadow-inner">
+      <div className="rounded-[20px] bg-surface p-4 shadow-inner">
         <div className="flex items-baseline justify-between">
-          <h3 className="text-sm font-bold text-gray-900">오늘의 리스트</h3>
+          <h3 className="text-sm font-bold text-text">오늘의 리스트</h3>
           <span className="text-[10px] text-gray-400">2026.07.10</span>
         </div>
 
         {/* 필터 (지역 / 티어 / 3축) */}
-        <div className="mt-3 space-y-2 rounded-xl border border-gray-200 p-3">
+        <div className="mt-3 space-y-2 rounded-xl border border-border p-3">
           {FILTER_ROWS.map((row) => (
             <div key={row.label} className="flex flex-wrap items-center gap-1.5">
-              <span className="w-8 shrink-0 text-[10px] font-semibold text-gray-500">
+              <span className="w-8 shrink-0 text-[10px] font-semibold text-text-secondary">
                 {row.label}
               </span>
               {row.options.map((option, i) => (
@@ -73,8 +73,8 @@ export default function DashboardMockup() {
                   key={option}
                   className={`rounded-full px-2 py-0.5 text-[9px] font-medium ${
                     i === 0
-                      ? 'bg-gray-900 text-white'
-                      : 'border border-gray-300 bg-white text-gray-600'
+                      ? 'bg-badge-active text-text-inverse'
+                      : 'border border-border-strong bg-surface text-text-muted'
                   }`}
                 >
                   {option}
@@ -89,14 +89,14 @@ export default function DashboardMockup() {
           {INFLUENCERS.map((inf) => (
             <div
               key={inf.handle}
-              className="flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-white shadow-sm"
+              className="flex flex-col overflow-hidden rounded-xl border border-gray-100 bg-surface shadow-sm"
             >
               <div
                 className={`relative flex aspect-[9/16] w-full items-center justify-center overflow-hidden bg-gradient-to-br ${inf.gradient}`}
               >
                 <inf.icon className="h-6 w-6 object-contain text-white/90" />
 
-                <span className="absolute left-1.5 top-1.5 rounded-full bg-black/40 px-1.5 py-0.5 text-[8px] font-medium text-white">
+                <span className="absolute left-1.5 top-1.5 rounded-full bg-black/40 px-1.5 py-0.5 text-[8px] font-medium text-text-inverse">
                   {inf.category}
                 </span>
                 <span className="absolute right-1.5 top-1.5 rounded-full bg-white/90 px-1.5 py-0.5 text-[8px] font-medium text-gray-700">
@@ -105,7 +105,7 @@ export default function DashboardMockup() {
               </div>
 
               <div className="p-1.5">
-                <p className="truncate text-[11px] font-bold text-gray-900">
+                <p className="truncate text-[11px] font-bold text-text">
                   {inf.name}
                 </p>
                 <p className="truncate text-[9px] text-gray-400">@{inf.handle}</p>

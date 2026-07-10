@@ -45,7 +45,7 @@ export default function InfluencerCard({
         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
 
-      <span className="absolute left-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs text-white">
+      <span className="absolute left-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs text-text-inverse">
         {platform}
       </span>
 
@@ -56,7 +56,7 @@ export default function InfluencerCard({
 
     <div className="flex flex-1 flex-col gap-3 p-6">
       <div>
-        <h3 className="text-base font-bold text-gray-900">
+        <h3 className="text-base font-bold text-text">
           {name}
         </h3>
 
@@ -65,7 +65,7 @@ export default function InfluencerCard({
         </p>
       </div>
 
-      <div className="space-y-1 text-sm text-gray-500">
+      <div className="space-y-1 text-sm text-text-secondary">
         <p>팔로워 {followers?.toLocaleString()}</p>
         <p>조회수 {real_views?.toLocaleString()}</p>
         <p>참여율 {engagement_rate}%</p>
@@ -80,7 +80,7 @@ export default function InfluencerCard({
           className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-lg transition-colors ${
             isFavorite
               ? 'border-rose-200 bg-rose-50 text-rose-500'
-              : 'border-gray-200 text-gray-300 hover:text-gray-400'
+              : 'border-border text-gray-300 hover:text-gray-400'
           }`}
         >
           {isFavorite ? '♥' : '♡'}
@@ -88,7 +88,7 @@ export default function InfluencerCard({
 
         <button
           type="button"
-          className="flex-1 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30"
+          className="flex-1 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 py-2 text-sm font-semibold text-text-inverse shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30"
         >
           연락하기
         </button>

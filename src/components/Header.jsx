@@ -12,7 +12,7 @@ function TabLink({ to, children }) {
         `pb-3 border-b-2 text-sm font-medium transition-colors ${
           isActive
             ? 'border-primary text-primary'
-            : 'border-transparent text-gray-400 hover:text-gray-600'
+            : 'border-transparent text-gray-400 hover:text-text-muted'
         }`
       }
     >
@@ -68,7 +68,7 @@ export default function Header({ minimal = false }) {
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
-                className="text-sm font-medium text-gray-500 transition-colors hover:text-primary"
+                className="text-sm font-medium text-text-secondary transition-colors hover:text-primary"
               >
                 로그아웃
               </button>

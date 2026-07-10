@@ -56,12 +56,12 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Header />
 
       <main className="mx-auto max-w-md px-6 py-16">
-        <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
-          <h1 className="mb-8 text-center text-2xl font-extrabold text-gray-900">
+        <div className="rounded-2xl border border-border bg-surface p-8 shadow-sm">
+          <h1 className="mb-8 text-center text-2xl font-extrabold text-text">
             회원가입
           </h1>
 
@@ -70,7 +70,7 @@ export default function Signup() {
             placeholder="이메일"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mb-4 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-colors focus:border-gray-400"
+            className="mb-4 w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder-placeholder outline-none transition-colors focus:border-border-focus"
           />
 
           <input
@@ -78,7 +78,7 @@ export default function Signup() {
             placeholder="비밀번호"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mb-4 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-colors focus:border-gray-400"
+            className="mb-4 w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder-placeholder outline-none transition-colors focus:border-border-focus"
           />
 
           <input
@@ -86,11 +86,11 @@ export default function Signup() {
             placeholder="비밀번호 확인"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
-            className="mb-6 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-colors focus:border-gray-400"
+            className="mb-6 w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder-placeholder outline-none transition-colors focus:border-border-focus"
           />
 
           <div className="mb-4">
-            <p className="mb-2 text-sm font-semibold text-gray-500">회원 유형</p>
+            <p className="mb-2 text-sm font-semibold text-text-secondary">회원 유형</p>
             <div className="flex flex-wrap gap-2">
               {USER_TYPES.map((type) => (
                 <label key={type.value} className="cursor-pointer">
@@ -105,8 +105,8 @@ export default function Signup() {
                   <span
                     className={`inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
                       userType === type.value
-                        ? 'border-gray-900 bg-gray-900 text-white'
-                        : 'border-gray-300 bg-white text-gray-600 hover:border-gray-400'
+                        ? 'border-badge-active bg-badge-active text-text-inverse'
+                        : 'border-border-strong bg-surface text-text-muted hover:border-border-strong'
                     }`}
                   >
                     {type.label}
@@ -122,7 +122,7 @@ export default function Signup() {
               placeholder="브랜드명 (필수)"
               value={brandName}
               onChange={(e) => setBrandName(e.target.value)}
-              className="mb-6 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-colors focus:border-gray-400"
+              className="mb-6 w-full rounded-xl border border-border px-4 py-3 text-sm text-text placeholder-placeholder outline-none transition-colors focus:border-border-focus"
             />
           )}
 
@@ -130,11 +130,11 @@ export default function Signup() {
             회원가입
           </Button>
 
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-text-secondary">
             이미 계정이 있으신가요?{' '}
             <Link
               to={ROUTES.LOGIN}
-              className="font-semibold text-gray-900 underline-offset-2 transition-colors hover:text-black hover:underline"
+              className="font-semibold text-text underline-offset-2 transition-colors hover:text-black hover:underline"
             >
               로그인
             </Link>

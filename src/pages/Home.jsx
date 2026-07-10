@@ -63,7 +63,7 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-white">
+    <div className="min-h-screen overflow-x-hidden bg-surface">
       <Header minimal />
 
       {/* Hero */}
@@ -78,7 +78,7 @@ export default function Home() {
               <Sparkles className="h-3.5 w-3.5 text-fuchsia-300" />
               AI 기반 인플루언서 마케팅 플랫폼
             </span>
-            <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-white sm:text-5xl lg:text-[3.4rem]">
+            <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-text-inverse sm:text-5xl lg:text-[3.4rem]">
               인플루언서 마케팅을
               <br />
               <span className="bg-gradient-to-r from-fuchsia-300 via-violet-200 to-white bg-clip-text text-transparent">
@@ -92,7 +92,7 @@ export default function Home() {
             <div className="mt-10 flex flex-wrap items-center gap-4">
               <button
                 onClick={() => navigate(ROUTES.LOGIN)}
-                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 to-primary px-8 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(217,70,239,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(217,70,239,0.5)]"
+                className="group inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-fuchsia-500 to-primary px-8 py-3.5 text-sm font-semibold text-text-inverse shadow-[0_10px_30px_rgba(217,70,239,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_16px_40px_rgba(217,70,239,0.5)]"
               >
                 로그인
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -109,7 +109,7 @@ export default function Home() {
                 <TrendingUp className="h-4 w-4" />
               </span>
               <div>
-                <p className="text-xs font-semibold text-white">이번 주 +128 매칭</p>
+                <p className="text-xs font-semibold text-text-inverse">이번 주 +128 매칭</p>
                 <p className="text-[11px] text-white/60">실시간 업데이트 중</p>
               </div>
             </div>
@@ -122,10 +122,10 @@ export default function Home() {
         <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
           About
         </span>
-        <h2 className="mt-4 text-2xl font-extrabold text-gray-900 sm:text-3xl">
+        <h2 className="mt-4 text-2xl font-extrabold text-text sm:text-3xl">
           하나의 플랫폼, 모든 인플루언서 마케팅
         </h2>
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-gray-500">
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-text-secondary">
           SlamPick은 브랜드가 인플루언서를 쉽게 탐색하고, 국가, 카테고리, 팔로워
           수 등의 조건으로 검색하며, 
           <br />
@@ -135,13 +135,13 @@ export default function Home() {
       </Reveal>
 
       {/* Features */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-28">
+      <section className="bg-gradient-to-b from-background to-surface py-28">
         <div className="mx-auto max-w-6xl px-6">
           <Reveal className="text-center">
             <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
               Features
             </span>
-            <h2 className="mt-4 text-2xl font-extrabold text-gray-900 sm:text-3xl">
+            <h2 className="mt-4 text-2xl font-extrabold text-text sm:text-3xl">
               필요한 기능은 다 있습니다
             </h2>
           </Reveal>
@@ -153,13 +153,13 @@ export default function Home() {
                   hover
                   className="group h-full p-7 hover:-translate-y-2 hover:border-primary/20 hover:shadow-[0_24px_48px_rgba(71,51,255,0.16)]"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-fuchsia-500 text-white shadow-lg shadow-primary/30 transition-transform duration-300 group-hover:scale-110">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-fuchsia-500 text-text-inverse shadow-lg shadow-primary/30 transition-transform duration-300 group-hover:scale-110">
                     <feature.icon className="h-6 w-6" />
                   </div>
-                  <h3 className="mt-5 text-lg font-bold text-gray-900">
+                  <h3 className="mt-5 text-lg font-bold text-text">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                  <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                     {feature.description}
                   </p>
                 </Card>
@@ -175,7 +175,7 @@ export default function Home() {
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
             Why SlamPick
           </span>
-          <h2 className="mt-4 text-2xl font-extrabold text-gray-900 sm:text-3xl">
+          <h2 className="mt-4 text-2xl font-extrabold text-text sm:text-3xl">
             선택해야 할 이유
           </h2>
         </Reveal>
@@ -186,13 +186,13 @@ export default function Home() {
                 hover
                 className="group h-full p-8 text-center hover:-translate-y-2 hover:shadow-[0_24px_48px_rgba(71,51,255,0.16)]"
               >
-                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-text-inverse">
                   <item.icon className="h-7 w-7" />
                 </div>
-                <h3 className="mt-5 text-lg font-bold text-gray-900">
+                <h3 className="mt-5 text-lg font-bold text-text">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-gray-500">
+                <p className="mt-2 text-sm leading-relaxed text-text-secondary">
                   {item.description}
                 </p>
               </Card>
@@ -208,7 +208,7 @@ export default function Home() {
           <div className="pointer-events-none absolute -bottom-24 -right-10 h-72 w-72 rounded-full bg-violet-400/30 blur-3xl" />
 
           <div className="relative">
-            <h2 className="text-2xl font-extrabold text-white sm:text-3xl">
+            <h2 className="text-2xl font-extrabold text-text-inverse sm:text-3xl">
               지금 시작해보세요
             </h2>
             <p className="mx-auto mt-4 max-w-md text-sm text-white/70">
@@ -218,7 +218,7 @@ export default function Home() {
             </p>
             <button
               onClick={() => navigate(ROUTES.SIGNUP)}
-              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-primary shadow-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl"
+              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-surface px-8 py-3.5 text-sm font-semibold text-primary shadow-xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-2xl"
             >
               회원가입
               <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />

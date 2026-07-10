@@ -7,8 +7,8 @@ export function FilterPill({ label, active, onClick }) {
       onClick={onClick}
       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ${
         active
-          ? 'bg-gradient-to-r from-primary to-fuchsia-500 text-white shadow-md shadow-primary/30'
-          : 'border border-gray-300 bg-white text-gray-600 hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary'
+          ? 'bg-gradient-to-r from-primary to-fuchsia-500 text-text-inverse shadow-md shadow-primary/30'
+          : 'border border-border-strong bg-surface text-text-muted hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary'
       }`}
     >
       {label}
@@ -42,7 +42,7 @@ export default function FilterBar({
   return (
     <Card glass className="p-5">
       <div className="flex flex-wrap items-center gap-3">
-        <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
+        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
           지역
         </span>
         <FilterGroup
@@ -53,7 +53,7 @@ export default function FilterBar({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
+        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
           티어
         </span>
         <FilterGroup
@@ -64,7 +64,7 @@ export default function FilterBar({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
+        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
           3축
         </span>
         <FilterGroup

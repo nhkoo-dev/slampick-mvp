@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Card from './Card';
 
 const BADGE_TONES = {
   green: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
@@ -32,7 +33,10 @@ export default function InfluencerCard({
   const [isFavorite, setIsFavorite] = useState(false);
 
  return (
-  <div className="group flex h-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-[0_8px_30px_rgba(71,51,255,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_20px_40px_rgba(71,51,255,0.14)]">
+  <Card
+    hover
+    className="group flex h-full flex-col overflow-hidden hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_20px_40px_rgba(71,51,255,0.14)]"
+  >
 
     <div className="relative aspect-[9/16] w-full overflow-hidden bg-gray-100">
       <img
@@ -92,6 +96,6 @@ export default function InfluencerCard({
 
     </div>
 
-  </div>
+  </Card>
 );
 }

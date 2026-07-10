@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Button from '../components/Button';
 import { ROUTES } from '../config/constants';
 import { supabase } from '../supabase/client';
 
@@ -49,12 +50,9 @@ export default function Login() {
             className="mb-6 w-full rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-none transition-colors focus:border-gray-400"
           />
 
-          <button
-            onClick={signIn}
-            className="w-full rounded-xl bg-black py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
-          >
+          <Button variant="dark" size="block" onClick={signIn}>
             로그인
-          </button>
+          </Button>
 
           <p className="mt-6 text-center text-sm text-gray-500">
             회원이 아니신가요?{' '}

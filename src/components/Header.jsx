@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../config/constants';
 import { useAuth } from '../context/AuthContext';
+import Button from './Button';
 
 function TabLink({ to, children }) {
   return (
@@ -43,12 +44,9 @@ export default function Header({ minimal = false }) {
       <header className="sticky top-0 z-50 border-b border-white/60 bg-white/70 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
           {Logo}
-          <button
-            onClick={() => navigate(ROUTES.LOGIN)}
-            className="rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
-          >
+          <Button variant="gradient" size="sm" onClick={() => navigate(ROUTES.LOGIN)}>
             로그인
-          </button>
+          </Button>
         </div>
       </header>
     );
@@ -75,12 +73,9 @@ export default function Header({ minimal = false }) {
                 로그아웃
               </button>
             ) : (
-              <button
-                onClick={() => navigate(ROUTES.LOGIN)}
-                className="rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
-              >
+              <Button variant="gradient" size="sm" onClick={() => navigate(ROUTES.LOGIN)}>
                 로그인
-              </button>
+              </Button>
             )}
           </div>
         </div>

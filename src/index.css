@@ -2,6 +2,14 @@
 
 @theme {
   --color-primary: #4733FF;
+  --color-primary-hover: #5B47FF;
+
+  --color-surface: #FFFFFF;
+  --color-background: #F8FAFC;
+
+  --color-text: #111827;
+  --color-text-secondary: #6B7280
+
   --font-sans: 'Pretendard', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 }

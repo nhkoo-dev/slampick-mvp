@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Button from '../components/Button';
 import { ROUTES } from '../config/constants';
 import { supabase } from '../supabase/client';
 import { createBrand } from '../repositories/brandRepository';
@@ -125,12 +126,9 @@ export default function Signup() {
             />
           )}
 
-          <button
-            onClick={signUp}
-            className="w-full rounded-xl bg-black py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800"
-          >
+          <Button variant="dark" size="block" onClick={signUp}>
             회원가입
-          </button>
+          </Button>
 
           <p className="mt-6 text-center text-sm text-gray-500">
             이미 계정이 있으신가요?{' '}

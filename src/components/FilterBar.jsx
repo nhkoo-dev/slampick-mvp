@@ -1,3 +1,5 @@
+import Card from './Card';
+
 export function FilterPill({ label, active, onClick }) {
   return (
     <button
@@ -38,7 +40,7 @@ export default function FilterBar({
   setSelectedAxis,
 }) {
   return (
-    <div className="rounded-3xl border border-gray-100 bg-white/80 p-5 shadow-[0_8px_30px_rgba(71,51,255,0.06)] backdrop-blur-xl">
+    <Card glass className="p-5">
       <div className="flex flex-wrap items-center gap-3">
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           지역
@@ -75,6 +77,6 @@ export default function FilterBar({
       <p className="mt-3 text-xs text-gray-400">
         필터는 월 1회 변경 가능 — 정한 조건으로 슬램픽이 계속 찾아 매일 채워요.
       </p>
-    </div>
+    </Card>
   );
 }

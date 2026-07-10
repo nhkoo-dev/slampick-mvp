@@ -13,6 +13,7 @@ import {
 import Header from '../components/Header';
 import Reveal from '../components/Reveal';
 import DashboardMockup from '../components/DashboardMockup';
+import Card from '../components/Card';
 import { ROUTES } from '../config/constants';
 
 const FEATURES = [
@@ -147,7 +148,11 @@ export default function Home() {
           <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {FEATURES.map((feature, index) => (
               <Reveal key={feature.title} delay={index * 100}>
-                <div className="group h-full rounded-3xl border border-gray-100 bg-white/80 p-7 shadow-[0_8px_30px_rgba(71,51,255,0.06)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-2 hover:border-primary/20 hover:shadow-[0_24px_48px_rgba(71,51,255,0.16)]">
+                <Card
+                  glass
+                  hover
+                  className="group h-full p-7 hover:-translate-y-2 hover:border-primary/20 hover:shadow-[0_24px_48px_rgba(71,51,255,0.16)]"
+                >
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-fuchsia-500 text-white shadow-lg shadow-primary/30 transition-transform duration-300 group-hover:scale-110">
                     <feature.icon className="h-6 w-6" />
                   </div>
@@ -157,7 +162,7 @@ export default function Home() {
                   <p className="mt-2 text-sm leading-relaxed text-gray-500">
                     {feature.description}
                   </p>
-                </div>
+                </Card>
               </Reveal>
             ))}
           </div>
@@ -177,7 +182,10 @@ export default function Home() {
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-3">
           {WHY_SLAMPICK.map((item, index) => (
             <Reveal key={item.title} delay={index * 100}>
-              <div className="group h-full rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-[0_8px_30px_rgba(71,51,255,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_24px_48px_rgba(71,51,255,0.16)]">
+              <Card
+                hover
+                className="group h-full p-8 text-center hover:-translate-y-2 hover:shadow-[0_24px_48px_rgba(71,51,255,0.16)]"
+              >
                 <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
                   <item.icon className="h-7 w-7" />
                 </div>
@@ -187,7 +195,7 @@ export default function Home() {
                 <p className="mt-2 text-sm leading-relaxed text-gray-500">
                   {item.description}
                 </p>
-              </div>
+              </Card>
             </Reveal>
           ))}
         </div>

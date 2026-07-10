@@ -1,32 +1,16 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import FilterBar, { FilterPill } from '../components/FilterBar';
-import InfluencerCard from '../components/InfluencerCard';
-import Button from '../components/Button';
+import Header from '../components/common/Header';
+import FilterBar from '../components/today/FilterBar';
+import InfluencerCard from '../components/today/InfluencerCard';
+import ModeSwitcher from '../components/today/ModeSwitcher';
+import TrialOverlay from '../components/today/TrialOverlay';
 import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
-
-const TIER_MAP = {
-  메가: 'MEGA',
-  미드: 'MID',
-  나노: 'NANO',
-};
-
-const REGION_MAP = {
-  US: "US",
-  중화권: "CH",
-  일본: "JP",
-  중동: "UAE"
-
-}
+import { filterInfluencers } from '../utils/filterInfluencers';
+import { createTrialPlaceholders } from '../utils/trialPlaceholder';
 
 const TRIAL_VISIBLE_COUNT = 20;
 const TRIAL_PLACEHOLDER_COUNT = 8;
-
-const MODES = [
-  { value: 'premium', label: '구독(실시간)' },
-  { value: 'trial', label: '체험(무료)' },
-];
 
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
@@ -80,19 +64,11 @@ export default function TodayList() {
       load();
   }, [viewMode]);
 
-  // trial은 필터링 없이 조회된 데이터를 그대로 사용 (필터 클릭이 동작하지 않도록)
-  let filteredInfluencers = influencers;
-
-  if (!isTrial) {
-    filteredInfluencers = influencers.filter((influencer) => {
-      const matchesRegion =
-        selectedRegion === '전체' || influencer.region === REGION_MAP[selectedRegion];
-      const matchesTier =
-        selectedTier === '전체' || influencer.tier === TIER_MAP[selectedTier];
-
-      return matchesRegion && matchesTier;
-    });
-  }
+  const filteredInfluencers = filterInfluencers(influencers, {
+    isTrial,
+    selectedRegion,
+    selectedTier,
+  });
 
   // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
   let visibleInfluencers = filteredInfluencers;
@@ -101,56 +77,19 @@ export default function TodayList() {
     visibleInfluencers = filteredInfluencers.slice(0, TRIAL_VISIBLE_COUNT);
   }
 
-  // 블러 처리될 자리 채우기용 카드 (실제 데이터를 순환 재사용, 내용은 블러로 가려짐)
   // premium tier 유저가 체험 화면을 미리보는 경우에는 구독 유도 블러를 보여주지 않는다
   let placeholderInfluencers = [];
 
-  if (isTrial && !isPremiumTier && filteredInfluencers.length > 0) {
-    placeholderInfluencers = Array.from(
-      { length: TRIAL_PLACEHOLDER_COUNT },
-      (_, i) => filteredInfluencers[i % filteredInfluencers.length]
+  if (isTrial && !isPremiumTier) {
+    placeholderInfluencers = createTrialPlaceholders(
+      filteredInfluencers,
+      TRIAL_PLACEHOLDER_COUNT
     );
-  }
-
-  // trial에서는 FilterBar를 그대로 보여주되, 값 고정 + setter를 no-op으로 바꿔
-  // 필터 UI만 남기고 실제 필터링 동작은 막는다 (추후 블러 처리 예정)
-  let filterBarProps = {
-    selectedRegion,
-    setSelectedRegion,
-    selectedTier,
-    setSelectedTier,
-    selectedAxis,
-    setSelectedAxis,
-  };
-
-  if (isTrial) {
-    filterBarProps = {
-      selectedRegion: '전체',
-      setSelectedRegion: () => {},
-      selectedTier: '전체',
-      setSelectedTier: () => {},
-      selectedAxis: '전체',
-      setSelectedAxis: () => {},
-    };
   }
 
   const handleSubscribeClick = () => {
     alert('구독하기 기능은 준비 중입니다.');
   };
-
-  // premium tier만 프리미엄/체험 전환 버튼을 보고, 그 외에는 "무료 체험 중" 뱃지만 노출
-  let modeControls = <FilterPill label="무료 체험 중" active />;
-
-  if (isPremiumTier) {
-    modeControls = MODES.map((m) => (
-      <FilterPill
-        key={m.value}
-        label={m.label}
-        active={viewMode === m.value}
-        onClick={() => setViewMode(m.value)}
-      />
-    ));
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-surface">
@@ -166,7 +105,11 @@ export default function TodayList() {
           </div>
 
           <div className="flex w-full items-center justify-end gap-2 sm:w-auto">
-            {modeControls}
+            <ModeSwitcher
+              isPremiumTier={isPremiumTier}
+              viewMode={viewMode}
+              setViewMode={setViewMode}
+            />
           </div>
         </div>
         <p className="mt-1 text-sm text-text-secondary">
@@ -184,7 +127,15 @@ export default function TodayList() {
         </div>
 
         <div className="mt-6">
-          <FilterBar {...filterBarProps} />
+          <FilterBar
+            isTrial={isTrial}
+            selectedRegion={selectedRegion}
+            setSelectedRegion={setSelectedRegion}
+            selectedTier={selectedTier}
+            setSelectedTier={setSelectedTier}
+            selectedAxis={selectedAxis}
+            setSelectedAxis={setSelectedAxis}
+          />
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -193,28 +144,11 @@ export default function TodayList() {
           ))}
         </div>
 
-        {/* trial 전용: 블러 처리된 placeholder 카드 위에 구독 유도 오버레이를 겹쳐 표시 */}
-        {isTrial && placeholderInfluencers.length > 0 && (
-          <div className="relative mt-6">
-            <div className="grid grid-cols-1 gap-6 blur-sm select-none sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {placeholderInfluencers.map((influencer, index) => (
-                <InfluencerCard
-                  key={`trial-placeholder-${index}`}
-                  {...influencer}
-                />
-              ))}
-            </div>
-
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 rounded-3xl bg-white/70 text-center backdrop-blur-sm">
-              <span className="text-4xl">🔒</span>
-              <p className="max-w-xs text-base font-semibold text-text">
-                구독하면 모든 인플루언서를 확인할 수 있습니다.
-              </p>
-              <Button variant="gradient" size="sm" onClick={handleSubscribeClick}>
-                구독하기
-              </Button>
-            </div>
-          </div>
+        {isTrial && (
+          <TrialOverlay
+            placeholders={placeholderInfluencers}
+            onSubscribe={handleSubscribeClick}
+          />
         )}
       </main>
     </div>

@@ -1,14 +1,23 @@
-import Card from './Card';
+import Card from '../common/Card';
 
-export function FilterPill({ label, active, onClick }) {
+export function FilterPill({ label, active, onClick, disabled }) {
+  const handleClick = () => {
+    if (disabled) return;
+    onClick?.();
+  };
+
   return (
     <button
       type="button"
-      onClick={onClick}
+      onClick={handleClick}
       className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ${
         active
           ? 'bg-gradient-to-r from-primary to-fuchsia-500 text-text-inverse shadow-md shadow-primary/30'
           : 'border border-border-strong bg-surface text-text-muted hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary'
+      } ${
+        disabled
+          ? 'cursor-not-allowed opacity-60 hover:translate-y-0 hover:border-border-strong hover:text-text-muted'
+          : ''
       }`}
     >
       {label}
@@ -16,13 +25,14 @@ export function FilterPill({ label, active, onClick }) {
   );
 }
 
-function FilterGroup({ options, selected, onSelect }) {
+function FilterGroup({ options, selected, onSelect, disabled }) {
   return options.map((option) => (
     <FilterPill
       key={option}
       label={option}
       active={selected === option}
       onClick={() => onSelect(option)}
+      disabled={disabled}
     />
   ));
 }
@@ -32,6 +42,7 @@ const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
 
 export default function FilterBar({
+  isTrial = false,
   selectedRegion,
   setSelectedRegion,
   selectedTier,
@@ -39,6 +50,23 @@ export default function FilterBar({
   selectedAxis,
   setSelectedAxis,
 }) {
+  // trial이면 선택값을 항상 '전체'로 고정하고 setter는 호출되지 않는 no-op으로 대체한다
+  let region = selectedRegion;
+  let onSelectRegion = setSelectedRegion;
+  let tier = selectedTier;
+  let onSelectTier = setSelectedTier;
+  let axis = selectedAxis;
+  let onSelectAxis = setSelectedAxis;
+
+  if (isTrial) {
+    region = '전체';
+    onSelectRegion = () => {};
+    tier = '전체';
+    onSelectTier = () => {};
+    axis = '전체';
+    onSelectAxis = () => {};
+  }
+
   return (
     <Card glass className="p-5">
       <div className="flex flex-wrap items-center gap-3">
@@ -47,8 +75,9 @@ export default function FilterBar({
         </span>
         <FilterGroup
           options={REGIONS}
-          selected={selectedRegion}
-          onSelect={setSelectedRegion}
+          selected={region}
+          onSelect={onSelectRegion}
+          disabled={isTrial}
         />
       </div>
 
@@ -58,8 +87,9 @@ export default function FilterBar({
         </span>
         <FilterGroup
           options={TIERS}
-          selected={selectedTier}
-          onSelect={setSelectedTier}
+          selected={tier}
+          onSelect={onSelectTier}
+          disabled={isTrial}
         />
       </div>
 
@@ -69,8 +99,9 @@ export default function FilterBar({
         </span>
         <FilterGroup
           options={AXES}
-          selected={selectedAxis}
-          onSelect={setSelectedAxis}
+          selected={axis}
+          onSelect={onSelectAxis}
+          disabled={isTrial}
         />
       </div>
 

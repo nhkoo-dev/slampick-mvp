@@ -10,10 +10,10 @@ import {
   Target,
   TrendingUp,
 } from 'lucide-react';
-import Header from '../components/Header';
-import Reveal from '../components/Reveal';
-import DashboardMockup from '../components/DashboardMockup';
-import Card from '../components/Card';
+import Header from '../components/common/Header';
+import Reveal from '../components/common/Reveal';
+import DashboardMockup from '../components/dashboard/DashboardMockup';
+import Card from '../components/common/Card';
 import { ROUTES } from '../config/constants';
 
 const FEATURES = [

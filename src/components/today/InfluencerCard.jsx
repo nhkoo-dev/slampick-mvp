@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Card from './Card';
+import Card from '../common/Card';
 
 const BADGE_TONES = {
   green: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',

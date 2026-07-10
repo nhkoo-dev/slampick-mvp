@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../components/Header';
-import Button from '../components/Button';
+import Header from '../components/common/Header';
+import Button from '../components/common/Button';
 import { ROUTES } from '../config/constants';
 import { supabase } from '../supabase/client';
 import { createBrand } from '../repositories/brandRepository';

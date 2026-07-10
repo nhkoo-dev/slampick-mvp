@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/Header';
-import GuideFilterBar from '../components/GuideFilterBar';
-import GuideCard from '../components/GuideCard';
+import Header from '../components/common/Header';
+import GuideFilterBar from '../components/guide/GuideFilterBar';
+import GuideCard from '../components/guide/GuideCard';
 import { getGuides } from '../repositories/guideRepository';
 
 const STATS = [

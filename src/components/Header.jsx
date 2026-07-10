@@ -3,6 +3,7 @@ import { ROUTES } from '../config/constants';
 import { useAuth } from '../context/AuthContext';
 import Button from './Button';
 
+// 상단 네비게이션 탭 링크 (현재 경로와 일치하면 강조 스타일 적용)
 function TabLink({ to, children }) {
   return (
     <NavLink
@@ -21,15 +22,18 @@ function TabLink({ to, children }) {
   );
 }
 
+// minimal=true면 로그인 페이지 등에서 로고 + 로그인 버튼만 보여주는 축약형 헤더로 렌더링
 export default function Header({ minimal = false }) {
   const navigate = useNavigate();
   const { isLoggedIn, signOut } = useAuth();
 
+  // 로그아웃 처리: AuthContext의 signOut으로 세션을 정리한 뒤 홈으로 이동시킨다
   const handleLogout = async () => {
     await signOut();
     navigate(ROUTES.HOME);
   };
 
+  // 로고 클릭 시 홈으로 이동 (minimal/일반 헤더 공통으로 재사용)
   const Logo = (
     <button
       onClick={() => navigate(ROUTES.HOME)}
@@ -65,8 +69,10 @@ export default function Header({ minimal = false }) {
           </div>
 
           <div className="flex items-center gap-3">
+            {/* 로그인 상태에 따라 로그아웃 버튼 또는 로그인 버튼을 조건부 렌더링 */}
             {isLoggedIn ? (
-              <button
+              // 로그아웃 버튼: 클릭 시 handleLogout 실행 (signOut 후 홈으로 리다이렉트)
+              <button       
                 onClick={handleLogout}
                 className="text-sm font-medium text-text-secondary transition-colors hover:text-primary"
               >

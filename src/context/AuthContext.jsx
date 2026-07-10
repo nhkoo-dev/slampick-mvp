@@ -8,17 +8,20 @@ const AuthContext = createContext(undefined);
 // App을 감싸서 하위 컴포넌트에서 로그인 정보를 사용할 수 있게 함
 export function AuthProvider({ children }) {
   const [session, setSession] = useState(null); //현재 로그인한 사용자의 세션 정보
+  const [loading, setLoading] = useState(true); //초기 세션 조회가 끝났는지 여부
 
   //앱이 처음 실행될 때 브라우저에 저장된 로그인 세션을 가녀옴 // 새로 고침 후에도 로그인 유지
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);  //가져온 세션 상태에 저장
+      setLoading(false);
     });
 
     // 로그인 / 로그아웃 / 토큰 갱신 등의 인증 상태가 변경될 때마다 실행
     const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("session: ", session);
       setSession(session);  //세션 업데이트
+      setLoading(false);
     });
 
     return () => {
@@ -34,6 +37,7 @@ export function AuthProvider({ children }) {
     session,
     user: session?.user ?? null,
     isLoggedIn: !!session,
+    loading,
     signOut,
   };
 

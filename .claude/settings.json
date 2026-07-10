@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls src/components)",
+      "Bash(ls src/pages)",
+      "Bash(ls src *)",
+      "Bash(npm config *)",
+      "Bash(where playwright *)",
+      "Bash(npm ls *)",
+      "Bash(curl -s http://localhost:5183/src/App.jsx -o /dev/null -w \"App.jsx status: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5183/src/pages/Home.jsx -o /dev/null -w \"Home.jsx status: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5183/src/components/Header.jsx -o /dev/null -w \"Header.jsx status: %{http_code}\\\\n\")",
+      "Bash(curl -s http://localhost:5183/src/context/AuthContext.jsx -o /dev/null -w \"AuthContext.jsx status: %{http_code}\\\\n\")",
+      "Read(//tmp/**)",
+      "Bash(npm init *)",
+      "Bash(npx playwright *)",
+      "Bash(node smoke.mjs)",
+      "Bash(pkill -f \"vite --port 5183\")",
+      "Bash(node -e ' *)",
+      "Bash(pkill -f \"vite --port 5186\")"
+    ]
+  }
+}

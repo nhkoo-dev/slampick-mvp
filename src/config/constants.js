@@ -1,7 +1,8 @@
 export const APP_NAME = 'SLAMPICK';
 
 export const ROUTES = {
-  TODAY_LIST: '/',
+  HOME: '/',
+  TODAY_LIST: '/today',
   GUIDE: '/guide',
   LOGIN: '/login',
   SIGNUP: '/signup',

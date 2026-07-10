@@ -20,14 +20,32 @@ function TabLink({ to, children }) {
   );
 }
 
-export default function Header() {
+export default function Header({ minimal = false }) {
   const navigate = useNavigate();
   const { isLoggedIn, signOut } = useAuth();
 
   const handleLogout = async () => {
     await signOut();
-    navigate(ROUTES.TODAY_LIST);
+    navigate(ROUTES.HOME);
   };
+
+  if (minimal) {
+    return (
+      <header className="sticky top-0 z-50 border-b border-white/60 bg-white/70 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6">
+          <span className="bg-gradient-to-r from-primary to-fuchsia-500 bg-clip-text font-mono text-xl font-extrabold tracking-tight text-transparent">
+            SLAMPICK
+          </span>
+          <button
+            onClick={() => navigate(ROUTES.LOGIN)}
+            className="rounded-full bg-gradient-to-r from-primary to-fuchsia-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/40"
+          >
+            로그인
+          </button>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="bg-white border-b border-gray-200">
@@ -56,7 +74,7 @@ export default function Header() {
                 onClick={() => navigate(ROUTES.LOGIN)}
                 className="rounded-full bg-black px-4 py-2 text-sm font-medium text-white hover:bg-gray-800"
               >
-                로그인/회원가입
+                로그인
               </button>
             )}
           </div>

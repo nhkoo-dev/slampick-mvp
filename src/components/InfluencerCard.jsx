@@ -19,7 +19,6 @@ function Badge({ icon, label, tone }) {
   );
 }
 export default function InfluencerCard({
-    influencer_id,
     name,
     handle,
     platform,
@@ -61,7 +60,7 @@ export default function InfluencerCard({
         </h3>
 
         <p className="text-sm text-gray-400">
-          @{influencer_id}
+          @{handle}
         </p>
       </div>
 

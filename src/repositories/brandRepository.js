@@ -14,3 +14,14 @@ export async function createBrand({ id, name }) {
     throw error;
   }
 }
+
+export async function getMyBrand() {
+  const { data, error } = await supabase
+    .from('brand_user')
+    .select('id, name, tier')
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}

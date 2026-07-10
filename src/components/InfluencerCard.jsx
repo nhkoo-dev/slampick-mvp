@@ -32,13 +32,13 @@ export default function InfluencerCard({
   const [isFavorite, setIsFavorite] = useState(false);
 
  return (
-  <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition-shadow hover:shadow-md">
+  <div className="group flex h-full flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-[0_8px_30px_rgba(71,51,255,0.06)] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/20 hover:shadow-[0_20px_40px_rgba(71,51,255,0.14)]">
 
     <div className="relative aspect-[9/16] w-full overflow-hidden bg-gray-100">
       <img
         src={thumbnail_url}
         alt={name}
-        className="h-full w-full object-cover"
+        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
 
       <span className="absolute left-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs text-white">
@@ -50,7 +50,7 @@ export default function InfluencerCard({
       </span>
     </div>
 
-    <div className="flex flex-1 flex-col gap-3 p-5">
+    <div className="flex flex-1 flex-col gap-3 p-6">
       <div>
         <h3 className="text-base font-bold text-gray-900">
           {name}
@@ -84,7 +84,7 @@ export default function InfluencerCard({
 
         <button
           type="button"
-          className="flex-1 rounded-full bg-black py-2 text-sm font-semibold text-white"
+          className="flex-1 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 py-2 text-sm font-semibold text-white shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30"
         >
           연락하기
         </button>

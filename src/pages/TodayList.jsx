@@ -52,10 +52,10 @@ export default function TodayList() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Header />
 
-      <main className="mx-auto max-w-6xl px-6 py-8">
+      <main className="mx-auto max-w-6xl px-6 py-10">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-baseline gap-3">
             <h1 className="text-2xl font-extrabold text-gray-900">
@@ -77,11 +77,11 @@ export default function TodayList() {
         </div>
         <p className="mt-1 text-sm text-gray-500">
           오늘{' '}
-          <span className="font-semibold text-blue-600">+5명</span> 새로 협업
+          <span className="font-semibold text-primary">+5명</span> 새로 협업
           가능 · ↔ 이 조건으로 매일 자동 탐색 중 · 연락은 자유롭게.
         </p>
 
-        <div className="mt-5 flex items-center justify-between rounded-xl bg-slate-900 px-5 py-3 text-sm font-medium text-white">
+        <div className="mt-6 flex items-center justify-between rounded-2xl bg-gradient-to-r from-[#1c1147] via-[#3b1f9e] to-[#4733FF] px-5 py-3.5 text-sm font-medium text-white shadow-[0_8px_30px_rgba(71,51,255,0.25)]">
           <span>
             ⚡ 월 <span className="font-bold text-amber-300">1,000만+</span>{' '}
             6개월 시딩 계약 중 &lsquo;오늘의 리스트&rsquo; 자동 무료
@@ -89,7 +89,7 @@ export default function TodayList() {
           <span>›</span>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-6">
           <FilterBar
             selectedRegion={selectedRegion}
             setSelectedRegion={setSelectedRegion}
@@ -100,7 +100,7 @@ export default function TodayList() {
           />
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredInfluencers.map((influencer) => (
             <InfluencerCard key={influencer.influencer_id} {...influencer} />
           ))}

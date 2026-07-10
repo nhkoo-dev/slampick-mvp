@@ -3,10 +3,10 @@ export function FilterPill({ label, active, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+      className={`rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-300 ${
         active
-          ? 'bg-gray-900 text-white'
-          : 'bg-white text-gray-600 border border-gray-300 hover:border-gray-400'
+          ? 'bg-gradient-to-r from-primary to-fuchsia-500 text-white shadow-md shadow-primary/30'
+          : 'border border-gray-300 bg-white text-gray-600 hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary'
       }`}
     >
       {label}
@@ -38,7 +38,7 @@ export default function FilterBar({
   setSelectedAxis,
 }) {
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-4">
+    <div className="rounded-3xl border border-gray-100 bg-white/80 p-5 shadow-[0_8px_30px_rgba(71,51,255,0.06)] backdrop-blur-xl">
       <div className="flex flex-wrap items-center gap-3">
         <span className="w-12 shrink-0 text-sm font-semibold text-gray-500">
           지역

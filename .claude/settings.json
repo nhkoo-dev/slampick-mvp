@@ -17,7 +17,8 @@
       "Bash(node smoke.mjs)",
       "Bash(pkill -f \"vite --port 5183\")",
       "Bash(node -e ' *)",
-      "Bash(pkill -f \"vite --port 5186\")"
+      "Bash(pkill -f \"vite --port 5186\")",
+      "Bash(npx vite *)"
     ]
   }
 }

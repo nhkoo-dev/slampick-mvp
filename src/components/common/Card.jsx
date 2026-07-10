@@ -1,9 +1,19 @@
 // Home/FilterBar/InfluencerCard에서 반복되던 rounded-3xl + shadow 조합만 추출한 공통 카드
 export default function Card({ glass = false, hover = false, className = '', children, ...props }) {
+  let glassClass = 'bg-surface';
+  if (glass) {
+    glassClass = 'bg-white/80 backdrop-blur-xl';
+  }
+
+  let hoverClass = '';
+  if (hover) {
+    hoverClass = 'transition-all duration-300';
+  }
+
   const classes = [
     'rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgba(71,51,255,0.06)]',
-    glass ? 'bg-white/80 backdrop-blur-xl' : 'bg-surface',
-    hover ? 'transition-all duration-300' : '',
+    glassClass,
+    hoverClass,
     className,
   ]
     .filter(Boolean)

@@ -3,20 +3,20 @@ import { ROUTES } from '../../config/constants';
 import { useAuth } from '../../context/AuthContext';
 import Button from './Button';
 
+// NavLink의 isActive 상태에 따라 탭 링크 className을 계산
+function getTabLinkClassName({ isActive }) {
+  let activeClasses = 'border-transparent text-gray-400 hover:text-text-muted';
+  if (isActive) {
+    activeClasses = 'border-primary text-primary';
+  }
+
+  return `pb-3 border-b-2 text-sm font-medium transition-colors ${activeClasses}`;
+}
+
 // 상단 네비게이션 탭 링크 (현재 경로와 일치하면 강조 스타일 적용)
 function TabLink({ to, children }) {
   return (
-    <NavLink
-      to={to}
-      end
-      className={({ isActive }) =>
-        `pb-3 border-b-2 text-sm font-medium transition-colors ${
-          isActive
-            ? 'border-primary text-primary'
-            : 'border-transparent text-gray-400 hover:text-text-muted'
-        }`
-      }
-    >
+    <NavLink to={to} end className={getTabLinkClassName}>
       {children}
     </NavLink>
   );
@@ -32,6 +32,25 @@ export default function Header({ minimal = false }) {
     await signOut();
     navigate(ROUTES.HOME);
   };
+
+  // 로그인 상태에 따라 로그아웃 버튼 또는 로그인 버튼을 조건부 렌더링
+  let authControl = (
+    <Button variant="gradient" size="sm" onClick={() => navigate(ROUTES.LOGIN)}>
+      로그인
+    </Button>
+  );
+
+  if (isLoggedIn) {
+    // 로그아웃 버튼: 클릭 시 handleLogout 실행 (signOut 후 홈으로 리다이렉트)
+    authControl = (
+      <button
+        onClick={handleLogout}
+        className="text-sm font-medium text-text-secondary transition-colors hover:text-primary"
+      >
+        로그아웃
+      </button>
+    );
+  }
 
   // 로고 클릭 시 홈으로 이동 (minimal/일반 헤더 공통으로 재사용)
   const Logo = (
@@ -69,20 +88,7 @@ export default function Header({ minimal = false }) {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* 로그인 상태에 따라 로그아웃 버튼 또는 로그인 버튼을 조건부 렌더링 */}
-            {isLoggedIn ? (
-              // 로그아웃 버튼: 클릭 시 handleLogout 실행 (signOut 후 홈으로 리다이렉트)
-              <button       
-                onClick={handleLogout}
-                className="text-sm font-medium text-text-secondary transition-colors hover:text-primary"
-              >
-                로그아웃
-              </button>
-            ) : (
-              <Button variant="gradient" size="sm" onClick={() => navigate(ROUTES.LOGIN)}>
-                로그인
-              </Button>
-            )}
+            {authControl}
           </div>
         </div>
       </div>

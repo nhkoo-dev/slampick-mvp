@@ -31,6 +31,13 @@ export default function InfluencerCard({
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
+  let favoriteButtonClasses = 'border-border text-gray-300 hover:text-gray-400';
+  let favoriteIcon = '♡';
+  if (isFavorite) {
+    favoriteButtonClasses = 'border-rose-200 bg-rose-50 text-rose-500';
+    favoriteIcon = '♥';
+  }
+
  return (
   <Card
     hover
@@ -76,13 +83,9 @@ export default function InfluencerCard({
           type="button"
           aria-label="즐겨찾기"
           onClick={() => setIsFavorite((prev) => !prev)}
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-lg transition-colors ${
-            isFavorite
-              ? 'border-rose-200 bg-rose-50 text-rose-500'
-              : 'border-border text-gray-300 hover:text-gray-400'
-          }`}
+          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-lg transition-colors ${favoriteButtonClasses}`}
         >
-          {isFavorite ? '♥' : '♡'}
+          {favoriteIcon}
         </button>
 
         <button

@@ -27,12 +27,15 @@ export default function Reveal({ children, className = '', delay = 0, as = 'div'
     return () => observer.disconnect();
   }, []);
 
+  let visibleClasses = 'translate-y-10 opacity-0';
+  if (visible) {
+    visibleClasses = 'translate-y-0 opacity-100';
+  }
+
   return (
     <Tag
       ref={ref}
-      className={`transition-all duration-700 ease-out ${
-        visible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-      } ${className}`}
+      className={`transition-all duration-700 ease-out ${visibleClasses} ${className}`}
       // delay는 Tailwind 클래스로 표현하기 어려운 동적 값이라 인라인 스타일로 처리
       style={{ transitionDelay: `${delay}ms` }}
     >

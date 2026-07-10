@@ -68,18 +68,21 @@ export default function DashboardMockup() {
               <span className="w-8 shrink-0 text-[10px] font-semibold text-text-secondary">
                 {row.label}
               </span>
-              {row.options.map((option, i) => (
-                <span
-                  key={option}
-                  className={`rounded-full px-2 py-0.5 text-[9px] font-medium ${
-                    i === 0
-                      ? 'bg-badge-active text-text-inverse'
-                      : 'border border-border-strong bg-surface text-text-muted'
-                  }`}
-                >
-                  {option}
-                </span>
-              ))}
+              {row.options.map((option, i) => {
+                let optionClasses = 'border border-border-strong bg-surface text-text-muted';
+                if (i === 0) {
+                  optionClasses = 'bg-badge-active text-text-inverse';
+                }
+
+                return (
+                  <span
+                    key={option}
+                    className={`rounded-full px-2 py-0.5 text-[9px] font-medium ${optionClasses}`}
+                  >
+                    {option}
+                  </span>
+                );
+              })}
             </div>
           ))}
         </div>

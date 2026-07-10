@@ -92,27 +92,30 @@ export default function Signup() {
           <div className="mb-4">
             <p className="mb-2 text-sm font-semibold text-text-secondary">회원 유형</p>
             <div className="flex flex-wrap gap-2">
-              {USER_TYPES.map((type) => (
-                <label key={type.value} className="cursor-pointer">
-                  <input
-                    type="radio"
-                    name="userType"
-                    value={type.value}
-                    checked={userType === type.value}
-                    onChange={() => setUserType(type.value)}
-                    className="sr-only"
-                  />
-                  <span
-                    className={`inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
-                      userType === type.value
-                        ? 'border-badge-active bg-badge-active text-text-inverse'
-                        : 'border-border-strong bg-surface text-text-muted hover:border-border-strong'
-                    }`}
-                  >
-                    {type.label}
-                  </span>
-                </label>
-              ))}
+              {USER_TYPES.map((type) => {
+                let typeClasses = 'border-border-strong bg-surface text-text-muted hover:border-border-strong';
+                if (userType === type.value) {
+                  typeClasses = 'border-badge-active bg-badge-active text-text-inverse';
+                }
+
+                return (
+                  <label key={type.value} className="cursor-pointer">
+                    <input
+                      type="radio"
+                      name="userType"
+                      value={type.value}
+                      checked={userType === type.value}
+                      onChange={() => setUserType(type.value)}
+                      className="sr-only"
+                    />
+                    <span
+                      className={`inline-flex items-center rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${typeClasses}`}
+                    >
+                      {type.label}
+                    </span>
+                  </label>
+                );
+              })}
             </div>
           </div>
 

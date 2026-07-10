@@ -23,10 +23,10 @@ export default function Guide() {
     load();
   }, []);
 
-  const filteredGuides =
-    region === '전체'
-      ? guides
-      : guides.filter((guide) => guide.region === region);
+  let filteredGuides = guides;
+  if (region !== '전체') {
+    filteredGuides = guides.filter((guide) => guide.region === region);
+  }
 
   return (
     <div className="min-h-screen bg-background">

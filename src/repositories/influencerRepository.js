@@ -24,7 +24,11 @@ const SELECT_BY_MODE = {
       available_from,
       available_until
     ),
-    guide_fit!inner(score)
+    guide_fit!inner(score),
+    rate_card(
+      rate_card,
+      validate_until
+    )
   `,
   trial: `
     id,
@@ -64,9 +68,11 @@ export async function getInfluencers(mode = 'trial') {
   let result = data;
 
   if (mode === 'premium') {
-    result = data.map(
-      ({ influencer_availability, guide_fit, ...influencer }) => influencer
-    );
+    result = data.map(({ influencer_availability, guide_fit, rate_card, ...influencer }) => ({
+      ...influencer,
+      rate_card: rate_card?.rate_card,
+      validate_until: rate_card?.validate_until,
+    }));
   }
 
   console.log(`[getInfluencers] mode=${mode} count=${result.length}`);

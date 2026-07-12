@@ -27,7 +27,9 @@ export default function InfluencerCard({
     real_views,
     engagement_rate,
     followers,
-    thumbnail_url
+    thumbnail_url,
+    rate_card,
+    validate_until
 }) {
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -36,6 +38,17 @@ export default function InfluencerCard({
   if (isFavorite) {
     favoriteButtonClasses = 'border-rose-200 bg-rose-50 text-rose-500';
     favoriteIcon = '♥';
+  }
+
+  let rateCardLabel = null;
+  if (rate_card) {
+    const rateCardInManwon = Math.floor(rate_card / 10000);
+    rateCardLabel = `단가 ${rateCardInManwon.toLocaleString()}만원`;
+  }
+
+  let validateUntilLabel = null;
+  if (validate_until) {
+    validateUntilLabel = `유효기간 ${validate_until}`;
   }
 
  return (
@@ -58,6 +71,12 @@ export default function InfluencerCard({
       <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-xs">
         {region}
       </span>
+
+      {rateCardLabel && (
+        <span className="absolute bottom-3 left-3 rounded-full bg-surface/90 px-2 py-1 text-xs font-semibold text-primary">
+          {rateCardLabel}
+        </span>
+      )}
     </div>
 
     <div className="flex flex-1 flex-col gap-3 p-6">
@@ -76,6 +95,7 @@ export default function InfluencerCard({
         <p>조회수 {real_views?.toLocaleString()}</p>
         <p>참여율 {engagement_rate}%</p>
         <p>티어 {tier}</p>
+        {validateUntilLabel && <p>{validateUntilLabel}</p>}
       </div>
 
       <div className="mt-auto flex items-center gap-2 pt-2">

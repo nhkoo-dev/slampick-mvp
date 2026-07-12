@@ -76,7 +76,7 @@ export default function Home() {
           <Reveal>
             <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-xs font-semibold text-white/90 backdrop-blur-md">
               <Sparkles className="h-3.5 w-3.5 text-fuchsia-300" />
-              AI 기반 인플루언서 마케팅 플랫폼
+              인플루언서 마케팅 플랫폼
             </span>
             <h1 className="mt-6 text-4xl font-extrabold leading-tight tracking-tight text-text-inverse sm:text-5xl lg:text-[3.4rem]">
               인플루언서 마케팅을
@@ -130,7 +130,7 @@ export default function Home() {
           수 등의 조건으로 검색하며, 
           <br />
           캠페인을 효율적으로 운영할 수 있도록
-          도와주는 AI 기반 인플루언서 마케팅 플랫폼입니다.
+          도와주는 인플루언서 마케팅 플랫폼입니다.
         </p>
       </Reveal>
 

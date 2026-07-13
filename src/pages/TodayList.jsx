@@ -6,6 +6,7 @@ import ModeSwitcher from '../components/today/ModeSwitcher';
 import TrialOverlay from '../components/today/TrialOverlay';
 import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
+import { useFavorite } from '../hooks/useFavorite';
 import { filterInfluencers } from '../utils/filterInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
 
@@ -14,6 +15,11 @@ const TRIAL_PLACEHOLDER_COUNT = 8;
 
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
+  const [brand, setBrand] = useState(null);
+  // 페이지 진입 시점에 이미 저장되어 있던 influencer id 스냅샷. 리스트 노출 여부를 결정할 때만 사용하고,
+  // 같은 화면에서 좋아요를 누른다고 즉시 갱신하지 않는다 (새로고침/재진입 시에만 갱신됨)
+  const [excludedIds, setExcludedIds] = useState(new Set());
+  const { pickedIds, loadFavorites, toggleFavorite } = useFavorite(brand?.id);
   // tier: 실제 구독 등급 (서버 조회 결과, 사용자가 바꿀 수 없음)
   const [tier, setTier] = useState('trial');
   // viewMode: 화면에 실제로 표시 중인 모드. premium tier 유저만 버튼으로 전환 가능
@@ -32,9 +38,10 @@ export default function TodayList() {
   useEffect(() => {
     async function loadTier() {
       try {
-        const brand = await getMyBrand();
+        const myBrand = await getMyBrand();
+        setBrand(myBrand);
 
-        if (brand?.tier === 'premium') {
+        if (myBrand?.tier === 'premium') {
           setTier('premium');
           setViewMode('premium');
         }
@@ -64,11 +71,24 @@ export default function TodayList() {
       load();
   }, [viewMode]);
 
+  // 이미 저장한 인플루언서는 리스트 진입 시점에만 제외 대상으로 스냅샷을 떠 둔다
+  useEffect(() => {
+    async function loadExcludedPicks() {
+      if (!brand?.id) return;
+
+      const picks = await loadFavorites(); //pick 은 좋아요 눌러놨던 인플루언서 배열
+      setExcludedIds(new Set(picks.map((pick) => pick.id)));
+    }
+
+    loadExcludedPicks();
+  }, [brand?.id, loadFavorites]);
+
+  // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외한다
   const filteredInfluencers = filterInfluencers(influencers, {
     isTrial,
     selectedRegion,
     selectedTier,
-  });
+  }).filter((influencer) => !excludedIds.has(influencer.id));
 
   // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
   let visibleInfluencers = filteredInfluencers;
@@ -140,7 +160,12 @@ export default function TodayList() {
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {visibleInfluencers.map((influencer) => (
-            <InfluencerCard key={influencer.influencer_id} {...influencer} />
+            <InfluencerCard
+              key={influencer.id}
+              {...influencer}
+              isFavorite={pickedIds.has(influencer.id)}
+              onFavoriteToggle={() => toggleFavorite(influencer.id)}
+            />
           ))}
         </div>
 

@@ -66,6 +66,9 @@ export default function Header({ minimal = false }) {
     </Button>
   );
 
+  // 로그인 상태일 때만 로그아웃 버튼 왼쪽에 노출되는 마이페이지 버튼
+  let myPageButton = null;
+
   if (isLoggedIn) {
     // 로그아웃 버튼: 클릭 시 handleLogout 실행 (signOut 후 홈으로 리다이렉트)
     authControl = (
@@ -74,6 +77,15 @@ export default function Header({ minimal = false }) {
         className="text-sm font-medium text-text-secondary transition-colors hover:text-primary"
       >
         로그아웃
+      </button>
+    );
+
+    myPageButton = (
+      <button
+        onClick={() => navigate(ROUTES.MY_PAGE)}
+        className="text-sm font-medium text-text-secondary transition-colors hover:text-primary"
+      >
+        마이페이지
       </button>
     );
   }
@@ -119,6 +131,7 @@ export default function Header({ minimal = false }) {
           </div>
 
           <div className="flex items-center gap-3">
+            {myPageButton}
             {authControl}
             <button
               type="button"

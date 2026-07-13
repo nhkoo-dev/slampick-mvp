@@ -3,6 +3,7 @@ import { ROUTES } from './config/constants';
 import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
 import TodayList from './pages/TodayList';
+import MyPage from './pages/MyPage';
 import Guide from './pages/Guide';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -48,6 +49,14 @@ export default function App() {
         element={
           <RequireAuth>
             <TodayList />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path={ROUTES.MY_PAGE}
+        element={
+          <RequireAuth>
+            <MyPage />
           </RequireAuth>
         }
       />

@@ -43,6 +43,29 @@ function FilterGroup({ options, selected, onSelect, disabled }) {
   ));
 }
 
+// 3축(가용성/적합도/성과)은 다중 선택 가능. '전체'는 선택된 축이 없을 때의 상태를 의미한다.
+function AxisFilterGroup({ options, selectedAxes, onToggle, disabled }) {
+  return options.map((option) => {
+    let active;
+
+    if (option === '전체') {
+      active = selectedAxes.size === 0;
+    } else {
+      active = selectedAxes.has(option);
+    }
+
+    return (
+      <FilterPill
+        key={option}
+        label={option}
+        active={active}
+        onClick={() => onToggle(option)}
+        disabled={disabled}
+      />
+    );
+  });
+}
+
 const REGIONS = ['전체', 'US', '중화권', '일본', '중동'];
 const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
@@ -54,8 +77,8 @@ export default function FilterBar({
   setSelectedRegion,
   selectedTier,
   setSelectedTier,
-  selectedAxis,
-  setSelectedAxis,
+  selectedAxes,
+  onToggleAxis,
   selectedSort,
   setSelectedSort,
 }) {
@@ -64,8 +87,8 @@ export default function FilterBar({
   let onSelectRegion = setSelectedRegion;
   let tier = selectedTier;
   let onSelectTier = setSelectedTier;
-  let axis = selectedAxis;
-  let onSelectAxis = setSelectedAxis;
+  let axes = selectedAxes;
+  let handleToggleAxis = onToggleAxis;
   let sort = selectedSort;
   let onSelectSort = setSelectedSort;
 
@@ -74,8 +97,8 @@ export default function FilterBar({
     onSelectRegion = () => {};
     tier = '전체';
     onSelectTier = () => {};
-    axis = '전체';
-    onSelectAxis = () => {};
+    axes = new Set();
+    handleToggleAxis = () => {};
     sort = '기본';
     onSelectSort = () => {};
   }
@@ -110,10 +133,10 @@ export default function FilterBar({
         <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
           3축
         </span>
-        <FilterGroup
+        <AxisFilterGroup
           options={AXES}
-          selected={axis}
-          onSelect={onSelectAxis}
+          selectedAxes={axes}
+          onToggle={handleToggleAxis}
           disabled={isTrial}
         />
       </div>

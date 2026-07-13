@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/common/Header';
 import GuideFilterBar from '../components/guide/GuideFilterBar';
-import GuideCard from '../components/guide/GuideCard';
-import { getGuides } from '../repositories/guideRepository';
+import InfluencerCard from '../components/today/InfluencerCard';
+import { getInfluencers } from '../repositories/influencerRepository';
 
 const STATS = [
   { label: '업로드 완수율', value: '92%', valueColor: 'text-blue-600' },
@@ -11,21 +11,21 @@ const STATS = [
 ];
 
 export default function Guide() {
-  const [guides, setGuides] = useState([]);
+  const [influencers, setInfluencers] = useState([]);
   const [region, setRegion] = useState('전체');
 
   useEffect(() => {
     async function load() {
-      const data = await getGuides();
-      setGuides(data);
+      const data = await getInfluencers('trial');
+      setInfluencers(data);
     }
 
     load();
   }, []);
 
-  let filteredGuides = guides;
+  let filteredInfluencers = influencers;
   if (region !== '전체') {
-    filteredGuides = guides.filter((guide) => guide.region === region);
+    filteredInfluencers = influencers.filter((influencer) => influencer.region === region);
   }
 
   return (
@@ -59,9 +59,9 @@ export default function Guide() {
           <GuideFilterBar active={region} onChange={setRegion} />
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {filteredGuides.map((guide) => (
-            <GuideCard key={guide.id} {...guide} />
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+          {filteredInfluencers.map((influencer) => (
+            <InfluencerCard key={influencer.id} {...influencer} variant="compact" />
           ))}
         </div>
       </main>

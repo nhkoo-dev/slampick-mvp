@@ -18,7 +18,7 @@ export default function TrialOverlay({ placeholders, onSubscribe }) {
   return (
     <div className="relative mt-6">
       {/* 실제 데이터를 재사용한 카드들을 블러 처리해서 "콘텐츠가 더 있다"는 느낌만 준다 */}
-      <div className="grid grid-cols-1 gap-6 blur-sm select-none sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 blur-sm select-none sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
         {placeholders.map((influencer, index) => (
           <InfluencerCard key={`trial-placeholder-${index}`} {...influencer} />
         ))}

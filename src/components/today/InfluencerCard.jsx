@@ -64,33 +64,33 @@ export default function InfluencerCard({
         className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
       />
 
-      <span className="absolute left-3 top-3 rounded-full bg-black/60 px-2 py-1 text-xs text-text-inverse">
+      <span className="absolute left-2 top-2 rounded-full bg-black/60 px-1.5 py-0.5 text-[10px] text-text-inverse sm:left-3 sm:top-3 sm:px-2 sm:py-1 sm:text-xs">
         {platform}
       </span>
 
-      <span className="absolute right-3 top-3 rounded-full bg-white/90 px-2 py-1 text-xs">
+      <span className="absolute right-2 top-2 rounded-full bg-white/90 px-1.5 py-0.5 text-[10px] sm:right-3 sm:top-3 sm:px-2 sm:py-1 sm:text-xs">
         {region}
       </span>
 
       {rateCardLabel && (
-        <span className="absolute bottom-3 left-3 rounded-full bg-surface/90 px-2 py-1 text-xs font-semibold text-primary">
+        <span className="absolute bottom-2 left-2 rounded-full bg-surface/90 px-1.5 py-0.5 text-[10px] font-semibold text-primary sm:bottom-3 sm:left-3 sm:px-2 sm:py-1 sm:text-xs">
           {rateCardLabel}
         </span>
       )}
     </div>
 
-    <div className="flex flex-1 flex-col gap-3 p-6">
+    <div className="flex flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-6">
       <div>
-        <h3 className="text-base font-bold text-text">
+        <h3 className="text-sm font-bold text-text sm:text-base">
           {name}
         </h3>
 
-        <p className="text-sm text-gray-400">
+        <p className="text-xs text-gray-400 sm:text-sm">
           @{handle}
         </p>
       </div>
 
-      <div className="space-y-1 text-sm text-text-secondary">
+      <div className="space-y-0.5 text-xs text-text-secondary sm:space-y-1 sm:text-sm">
         <p>팔로워 {followers?.toLocaleString()}</p>
         <p>조회수 {real_views?.toLocaleString()}</p>
         <p>참여율 {engagement_rate}%</p>
@@ -98,19 +98,19 @@ export default function InfluencerCard({
         {validateUntilLabel && <p>{validateUntilLabel}</p>}
       </div>
 
-      <div className="mt-auto flex items-center gap-2 pt-2">
+      <div className="mt-auto flex items-center gap-1.5 pt-1 sm:gap-2 sm:pt-2">
         <button
           type="button"
           aria-label="즐겨찾기"
           onClick={() => setIsFavorite((prev) => !prev)}
-          className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full border text-lg transition-colors ${favoriteButtonClasses}`}
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-base transition-colors sm:h-10 sm:w-10 sm:text-lg ${favoriteButtonClasses}`}
         >
           {favoriteIcon}
         </button>
 
         <button
           type="button"
-          className="flex-1 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 py-2 text-sm font-semibold text-text-inverse shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30"
+          className="flex-1 rounded-full bg-gradient-to-r from-primary to-fuchsia-500 py-1.5 text-xs font-semibold text-text-inverse shadow-md shadow-primary/20 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-primary/30 sm:py-2 sm:text-sm"
         >
           연락하기
         </button>

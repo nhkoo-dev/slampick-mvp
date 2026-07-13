@@ -1,4 +1,5 @@
 import Card from '../common/Card';
+import { toDateOnly } from '../../utils/date';
 
 const BADGE_TONES = {
   green: 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200',
@@ -29,6 +30,7 @@ export default function InfluencerCard({
     thumbnail_url,
     rate_card,
     validate_until,
+    available_until,
     isFavorite = false,
     onFavoriteToggle,
 }) {
@@ -57,8 +59,13 @@ export default function InfluencerCard({
   //rate_card 유효기간 표시용 문자열 생성
   let validateUntilLabel = null;
   if (validate_until) {
-    const validateUntilDate = validate_until.split('T')[0].split(' ')[0];
-    validateUntilLabel = `~${validateUntilDate}`;
+    validateUntilLabel = `~${toDateOnly(validate_until)}`;
+  }
+
+  //협업 가능 기간(가용기간) 표시용 문자열 생성
+  let availableUntilLabel = null;
+  if (available_until) {
+    availableUntilLabel = `가용기간 ${toDateOnly(available_until)}`;
   }
 
  return (
@@ -111,7 +118,7 @@ export default function InfluencerCard({
         <p>조회수 {real_views?.toLocaleString()}</p>
         <p>참여율 {engagement_rate}%</p>
         <p>티어 {tier}</p>
-        {validateUntilLabel && <p>{validateUntilLabel}</p>}
+        {availableUntilLabel && <p>{availableUntilLabel}</p>}
       </div>
 
       <div className="mt-auto flex items-center gap-1.5 pt-1 sm:gap-2 sm:pt-2">

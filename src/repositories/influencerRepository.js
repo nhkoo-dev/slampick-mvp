@@ -121,6 +121,7 @@ export async function getInfluencers(mode = 'trial') {
       ...influencer,
       rate_card: rate_card?.rate_card,
       validate_until: rate_card?.validate_until,
+      available_until: influencer_availability?.available_until,
       isAvailable: isAvailableNow(influencer_availability, now),
       isGuideFit: isGuideFitScore(guide_fit),
     }));

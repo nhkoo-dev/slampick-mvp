@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Card from '../common/Card';
 
 const BADGE_TONES = {
@@ -29,10 +28,18 @@ export default function InfluencerCard({
     followers,
     thumbnail_url,
     rate_card,
-    validate_until
+    validate_until,
+    isFavorite = false,
+    onFavoriteToggle,
 }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  //하트 버튼 클릭시 부모에게 이벤트 전달
+  const handleFavoriteClick = () => {
+    if (onFavoriteToggle) {
+      onFavoriteToggle();
+    }
+  };
 
+  //즐겨찾기 여부에 따른 버튼 스타일 변경
   let favoriteButtonClasses = 'border-border text-gray-300 hover:text-gray-400';
   let favoriteIcon = '♡';
   if (isFavorite) {
@@ -40,12 +47,14 @@ export default function InfluencerCard({
     favoriteIcon = '♥';
   }
 
+  //단가 표시용 문자열 생성
   let rateCardLabel = null;
   if (rate_card) {
     const rateCardInManwon = Math.floor(rate_card / 10000);
     rateCardLabel = `단가 ${rateCardInManwon.toLocaleString()}만원`;
   }
 
+  //rate_card 유효기간 표시용 문자열 생성
   let validateUntilLabel = null;
   if (validate_until) {
     const validateUntilDate = validate_until.split('T')[0].split(' ')[0];
@@ -102,13 +111,14 @@ export default function InfluencerCard({
         <p>조회수 {real_views?.toLocaleString()}</p>
         <p>참여율 {engagement_rate}%</p>
         <p>티어 {tier}</p>
+        {validateUntilLabel && <p>{validateUntilLabel}</p>}
       </div>
 
       <div className="mt-auto flex items-center gap-1.5 pt-1 sm:gap-2 sm:pt-2">
         <button
           type="button"
           aria-label="즐겨찾기"
-          onClick={() => setIsFavorite((prev) => !prev)}
+          onClick={handleFavoriteClick}
           className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-base transition-colors sm:h-10 sm:w-10 sm:text-lg ${favoriteButtonClasses}`}
         >
           {favoriteIcon}

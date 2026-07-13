@@ -6,6 +6,7 @@ import ModeSwitcher from '../components/today/ModeSwitcher';
 import TrialOverlay from '../components/today/TrialOverlay';
 import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
+import { addPick, getPickedInfluencers, removePick } from '../repositories/picksInviteRepository';
 import { filterInfluencers } from '../utils/filterInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
 
@@ -14,6 +15,8 @@ const TRIAL_PLACEHOLDER_COUNT = 8;
 
 export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
+  const [brand, setBrand] = useState(null);
+  const [pickedIds, setPickedIds] = useState(new Set());
   // tier: 실제 구독 등급 (서버 조회 결과, 사용자가 바꿀 수 없음)
   const [tier, setTier] = useState('trial');
   // viewMode: 화면에 실제로 표시 중인 모드. premium tier 유저만 버튼으로 전환 가능
@@ -32,9 +35,10 @@ export default function TodayList() {
   useEffect(() => {
     async function loadTier() {
       try {
-        const brand = await getMyBrand();
+        const myBrand = await getMyBrand();
+        setBrand(myBrand);
 
-        if (brand?.tier === 'premium') {
+        if (myBrand?.tier === 'premium') {
           setTier('premium');
           setViewMode('premium');
         }
@@ -43,6 +47,10 @@ export default function TodayList() {
           setTier('trial');
           setViewMode('trial');
         }
+
+        // 이미 좋아요(저장)한 인플루언서는 새로고침 후에도 하트가 채워진 채로 보이도록 로드
+        const picks = await getPickedInfluencers(myBrand.id);
+        setPickedIds(new Set(picks.map((pick) => pick.id))); //pick 은 좋아요 눌러놨던 인플루언서 배열
 
       } catch {
         // 브랜드 정보가 없거나 조회 실패 시 안전하게 trial로 처리
@@ -89,6 +97,30 @@ export default function TodayList() {
 
   const handleSubscribeClick = () => {
     alert('구독하기 기능은 준비 중입니다.');
+  };
+
+  const handleFavoriteToggle = async (influencerId) => {
+    if (!brand?.id) return;
+
+    const isPicked = pickedIds.has(influencerId);
+
+    try {
+      if (isPicked) {
+        await removePick(brand.id, influencerId);
+        setPickedIds((prev) => {
+          const next = new Set(prev);
+          next.delete(influencerId);
+          return next;
+        });
+      }
+
+      else {
+        await addPick(brand.id, influencerId, 'list');
+        setPickedIds((prev) => new Set(prev).add(influencerId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -140,7 +172,12 @@ export default function TodayList() {
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {visibleInfluencers.map((influencer) => (
-            <InfluencerCard key={influencer.influencer_id} {...influencer} />
+            <InfluencerCard
+              key={influencer.id}
+              {...influencer}
+              isFavorite={pickedIds.has(influencer.id)}
+              onFavoriteToggle={() => handleFavoriteToggle(influencer.id)}
+            />
           ))}
         </div>
 

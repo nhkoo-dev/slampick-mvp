@@ -17,6 +17,9 @@ export default function TodayList() {
   const [influencers, setInfluencers] = useState([]);
   const [brand, setBrand] = useState(null);
   const [pickedIds, setPickedIds] = useState(new Set());
+  // 페이지 진입 시점에 이미 저장되어 있던 influencer id 스냅샷. 리스트 노출 여부를 결정할 때만 사용하고,
+  // 같은 화면에서 좋아요를 누른다고 즉시 갱신하지 않는다 (새로고침/재진입 시에만 갱신됨)
+  const [excludedIds, setExcludedIds] = useState(new Set());
   // tier: 실제 구독 등급 (서버 조회 결과, 사용자가 바꿀 수 없음)
   const [tier, setTier] = useState('trial');
   // viewMode: 화면에 실제로 표시 중인 모드. premium tier 유저만 버튼으로 전환 가능
@@ -48,9 +51,9 @@ export default function TodayList() {
           setViewMode('trial');
         }
 
-        // 이미 좋아요(저장)한 인플루언서는 새로고침 후에도 하트가 채워진 채로 보이도록 로드
-        const picks = await getPickedInfluencers(myBrand.id);
-        setPickedIds(new Set(picks.map((pick) => pick.id))); //pick 은 좋아요 눌러놨던 인플루언서 배열
+        // 이미 저장한 인플루언서는 리스트 진입 시점에만 제외 대상으로 스냅샷을 떠 둔다
+        const picks = await getPickedInfluencers(myBrand.id); //pick 은 좋아요 눌러놨던 인플루언서 배열
+        setExcludedIds(new Set(picks.map((pick) => pick.id)));
 
       } catch {
         // 브랜드 정보가 없거나 조회 실패 시 안전하게 trial로 처리
@@ -72,11 +75,12 @@ export default function TodayList() {
       load();
   }, [viewMode]);
 
+  // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외한다
   const filteredInfluencers = filterInfluencers(influencers, {
     isTrial,
     selectedRegion,
     selectedTier,
-  });
+  }).filter((influencer) => !excludedIds.has(influencer.id));
 
   // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
   let visibleInfluencers = filteredInfluencers;

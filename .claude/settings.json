@@ -18,7 +18,11 @@
       "Bash(pkill -f \"vite --port 5183\")",
       "Bash(node -e ' *)",
       "Bash(pkill -f \"vite --port 5186\")",
-      "Bash(npx vite *)"
+      "Bash(npx vite *)",
+      "Bash(cd \"c:\\\\Users\\\\angel\\\\Documents\\\\GitHub\\\\slampick-mvp\" && rm -f src/pages/__CardPreview.jsx && git status --short)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\angel\\Documents\\GitHub\\slampick-mvp\\src\\pages"
     ]
   }
 }

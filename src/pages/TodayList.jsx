@@ -8,6 +8,7 @@ import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
 import { useFavorite } from '../hooks/useFavorite';
 import { filterInfluencers } from '../utils/filterInfluencers';
+import { sortInfluencers, SORT_DEFAULT } from '../utils/sortInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
 
 const TRIAL_VISIBLE_COUNT = 20;
@@ -26,11 +27,33 @@ export default function TodayList() {
   const [viewMode, setViewMode] = useState('trial');
   const [selectedRegion, setSelectedRegion] = useState('전체');
   const [selectedTier, setSelectedTier] = useState('전체');
-  const [selectedAxis, setSelectedAxis] = useState('전체');
+  // 3축(가용성/적합도/성과) 다중 선택 상태. 비어있으면 '전체'를 의미한다
+  const [selectedAxes, setSelectedAxes] = useState(new Set());
+  const [selectedSort, setSelectedSort] = useState(SORT_DEFAULT);
 
   const isPremiumTier = tier === 'premium';
   // viewMode가 'premium'이 아니면 전부 trial 화면으로 취급
   const isTrial = viewMode !== 'premium';
+
+  // '전체'를 누르면 선택된 축을 모두 지우고, 그 외 축은 다중 토글된다
+  const handleToggleAxis = (axis) => {
+    if (axis === '전체') {
+      setSelectedAxes(new Set());
+      return;
+    }
+
+    setSelectedAxes((prev) => {
+      const next = new Set(prev);
+
+      if (next.has(axis)) {
+        next.delete(axis);
+      } else {
+        next.add(axis);
+      }
+
+      return next;
+    });
+  };
 
   // 내 브랜드의 구독 tier를 조회한다.
   // premium tier면 기본 화면을 premium으로 두고 버튼으로 trial 미리보기까지 가능하게 하고,
@@ -83,12 +106,29 @@ export default function TodayList() {
     loadExcludedPicks();
   }, [brand?.id, loadFavorites]);
 
-  // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외한다
-  const filteredInfluencers = filterInfluencers(influencers, {
-    isTrial,
-    selectedRegion,
-    selectedTier,
-  }).filter((influencer) => !excludedIds.has(influencer.id));
+  // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외하고 rate_card 기준으로 정렬한다
+  const filteredInfluencers = sortInfluencers(
+    filterInfluencers(influencers, {
+      isTrial,
+      selectedRegion,
+      selectedTier,
+      selectedAxes,
+    }).filter((influencer) => !excludedIds.has(influencer.id)),
+    isTrial ? SORT_DEFAULT : selectedSort
+  );
+
+  // 3축 버튼 선택이 바뀔 때마다 필터링된 데이터 개수를 로그로 확인한다
+  useEffect(() => {
+    let axesLabel;
+
+    if (selectedAxes.size === 0) {
+      axesLabel = '전체';
+    } else {
+      axesLabel = Array.from(selectedAxes).join('+');
+    }
+
+    console.log(`[filterInfluencers] axes=${axesLabel} count=${filteredInfluencers.length}`);
+  }, [selectedAxes, filteredInfluencers.length]);
 
   // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
   let visibleInfluencers = filteredInfluencers;
@@ -153,8 +193,10 @@ export default function TodayList() {
             setSelectedRegion={setSelectedRegion}
             selectedTier={selectedTier}
             setSelectedTier={setSelectedTier}
-            selectedAxis={selectedAxis}
-            setSelectedAxis={setSelectedAxis}
+            selectedAxes={selectedAxes}
+            onToggleAxis={handleToggleAxis}
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
           />
         </div>
 

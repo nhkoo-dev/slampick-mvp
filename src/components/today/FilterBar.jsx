@@ -43,9 +43,33 @@ function FilterGroup({ options, selected, onSelect, disabled }) {
   ));
 }
 
+// 3축(가용성/적합도/성과)은 다중 선택 가능. '전체'는 선택된 축이 없을 때의 상태를 의미한다.
+function AxisFilterGroup({ options, selectedAxes, onToggle, disabled }) {
+  return options.map((option) => {
+    let active;
+
+    if (option === '전체') {
+      active = selectedAxes.size === 0;
+    } else {
+      active = selectedAxes.has(option);
+    }
+
+    return (
+      <FilterPill
+        key={option}
+        label={option}
+        active={active}
+        onClick={() => onToggle(option)}
+        disabled={disabled}
+      />
+    );
+  });
+}
+
 const REGIONS = ['전체', 'US', '중화권', '일본', '중동'];
 const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
+const SORTS = ['기본', '단가↑', '단가↓'];
 
 export default function FilterBar({
   isTrial = false,
@@ -53,24 +77,30 @@ export default function FilterBar({
   setSelectedRegion,
   selectedTier,
   setSelectedTier,
-  selectedAxis,
-  setSelectedAxis,
+  selectedAxes,
+  onToggleAxis,
+  selectedSort,
+  setSelectedSort,
 }) {
   // trial이면 선택값을 항상 '전체'로 고정하고 setter는 호출되지 않는 no-op으로 대체한다
   let region = selectedRegion;
   let onSelectRegion = setSelectedRegion;
   let tier = selectedTier;
   let onSelectTier = setSelectedTier;
-  let axis = selectedAxis;
-  let onSelectAxis = setSelectedAxis;
+  let axes = selectedAxes;
+  let handleToggleAxis = onToggleAxis;
+  let sort = selectedSort;
+  let onSelectSort = setSelectedSort;
 
   if (isTrial) {
     region = '전체';
     onSelectRegion = () => {};
     tier = '전체';
     onSelectTier = () => {};
-    axis = '전체';
-    onSelectAxis = () => {};
+    axes = new Set();
+    handleToggleAxis = () => {};
+    sort = '기본';
+    onSelectSort = () => {};
   }
 
   return (
@@ -103,10 +133,22 @@ export default function FilterBar({
         <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
           3축
         </span>
-        <FilterGroup
+        <AxisFilterGroup
           options={AXES}
-          selected={axis}
-          onSelect={onSelectAxis}
+          selectedAxes={axes}
+          onToggle={handleToggleAxis}
+          disabled={isTrial}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
+          정렬
+        </span>
+        <FilterGroup
+          options={SORTS}
+          selected={sort}
+          onSelect={onSelectSort}
           disabled={isTrial}
         />
       </div>

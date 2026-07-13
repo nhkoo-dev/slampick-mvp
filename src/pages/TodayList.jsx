@@ -8,6 +8,7 @@ import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
 import { useFavorite } from '../hooks/useFavorite';
 import { filterInfluencers } from '../utils/filterInfluencers';
+import { sortInfluencers, SORT_DEFAULT } from '../utils/sortInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
 
 const TRIAL_VISIBLE_COUNT = 20;
@@ -27,6 +28,7 @@ export default function TodayList() {
   const [selectedRegion, setSelectedRegion] = useState('전체');
   const [selectedTier, setSelectedTier] = useState('전체');
   const [selectedAxis, setSelectedAxis] = useState('전체');
+  const [selectedSort, setSelectedSort] = useState(SORT_DEFAULT);
 
   const isPremiumTier = tier === 'premium';
   // viewMode가 'premium'이 아니면 전부 trial 화면으로 취급
@@ -83,12 +85,15 @@ export default function TodayList() {
     loadExcludedPicks();
   }, [brand?.id, loadFavorites]);
 
-  // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외한다
-  const filteredInfluencers = filterInfluencers(influencers, {
-    isTrial,
-    selectedRegion,
-    selectedTier,
-  }).filter((influencer) => !excludedIds.has(influencer.id));
+  // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외하고 rate_card 기준으로 정렬한다
+  const filteredInfluencers = sortInfluencers(
+    filterInfluencers(influencers, {
+      isTrial,
+      selectedRegion,
+      selectedTier,
+    }).filter((influencer) => !excludedIds.has(influencer.id)),
+    isTrial ? SORT_DEFAULT : selectedSort
+  );
 
   // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
   let visibleInfluencers = filteredInfluencers;
@@ -155,6 +160,8 @@ export default function TodayList() {
             setSelectedTier={setSelectedTier}
             selectedAxis={selectedAxis}
             setSelectedAxis={setSelectedAxis}
+            selectedSort={selectedSort}
+            setSelectedSort={setSelectedSort}
           />
         </div>
 

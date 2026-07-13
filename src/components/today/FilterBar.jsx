@@ -46,6 +46,7 @@ function FilterGroup({ options, selected, onSelect, disabled }) {
 const REGIONS = ['전체', 'US', '중화권', '일본', '중동'];
 const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
+const SORTS = ['기본', '단가↑', '단가↓'];
 
 export default function FilterBar({
   isTrial = false,
@@ -55,6 +56,8 @@ export default function FilterBar({
   setSelectedTier,
   selectedAxis,
   setSelectedAxis,
+  selectedSort,
+  setSelectedSort,
 }) {
   // trial이면 선택값을 항상 '전체'로 고정하고 setter는 호출되지 않는 no-op으로 대체한다
   let region = selectedRegion;
@@ -63,6 +66,8 @@ export default function FilterBar({
   let onSelectTier = setSelectedTier;
   let axis = selectedAxis;
   let onSelectAxis = setSelectedAxis;
+  let sort = selectedSort;
+  let onSelectSort = setSelectedSort;
 
   if (isTrial) {
     region = '전체';
@@ -71,6 +76,8 @@ export default function FilterBar({
     onSelectTier = () => {};
     axis = '전체';
     onSelectAxis = () => {};
+    sort = '기본';
+    onSelectSort = () => {};
   }
 
   return (
@@ -107,6 +114,18 @@ export default function FilterBar({
           options={AXES}
           selected={axis}
           onSelect={onSelectAxis}
+          disabled={isTrial}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
+          정렬
+        </span>
+        <FilterGroup
+          options={SORTS}
+          selected={sort}
+          onSelect={onSelectSort}
           disabled={isTrial}
         />
       </div>

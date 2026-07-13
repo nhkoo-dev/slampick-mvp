@@ -2,18 +2,23 @@ import { useEffect, useState } from 'react';
 import Header from '../components/common/Header';
 import InfluencerCard from '../components/today/InfluencerCard';
 import { getMyBrand } from '../repositories/brandRepository';
-import { getPickedInfluencers } from '../repositories/picksInviteRepository';
+import { addPick, getPickedInfluencers, removePick } from '../repositories/picksInviteRepository';
 
 export default function MyPage() {
   const [influencers, setInfluencers] = useState([]);
+  const [brand, setBrand] = useState(null);
+  const [pickedIds, setPickedIds] = useState(new Set());
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadPicks() {
       try {
-        const brand = await getMyBrand();
-        const picks = await getPickedInfluencers(brand.id);
+        const myBrand = await getMyBrand();
+        setBrand(myBrand);
+
+        const picks = await getPickedInfluencers(myBrand.id);
         setInfluencers(picks);
+        setPickedIds(new Set(picks.map((influencer) => influencer.id)));
       } catch (error) {
         console.error(error);
       } finally {
@@ -23,6 +28,30 @@ export default function MyPage() {
 
     loadPicks();
   }, []);
+
+  const handleFavoriteToggle = async (influencerId) => {
+    if (!brand?.id) return;
+
+    const isPicked = pickedIds.has(influencerId);
+
+    try {
+      if (isPicked) {
+        await removePick(brand.id, influencerId);
+        setPickedIds((prev) => {
+          const next = new Set(prev);
+          next.delete(influencerId);
+          return next;
+        });
+      }
+
+      else {
+        await addPick(brand.id, influencerId, 'list');
+        setPickedIds((prev) => new Set(prev).add(influencerId));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-surface">
@@ -42,7 +71,12 @@ export default function MyPage() {
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {influencers.map((influencer) => (
-            <InfluencerCard key={influencer.id} {...influencer} isFavorite />
+            <InfluencerCard
+              key={influencer.id}
+              {...influencer}
+              isFavorite={pickedIds.has(influencer.id)}
+              onFavoriteToggle={() => handleFavoriteToggle(influencer.id)}
+            />
           ))}
         </div>
       </main>

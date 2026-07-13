@@ -48,7 +48,8 @@ export default function InfluencerCard({
 
   let validateUntilLabel = null;
   if (validate_until) {
-    validateUntilLabel = `유효기간 ${validate_until}`;
+    const validateUntilDate = validate_until.split('T')[0].split(' ')[0];
+    validateUntilLabel = `~${validateUntilDate}`;
   }
 
  return (
@@ -77,6 +78,12 @@ export default function InfluencerCard({
           {rateCardLabel}
         </span>
       )}
+
+      {validateUntilLabel && (
+        <span className="absolute bottom-2 right-2 rounded-full bg-surface/90 px-1.5 py-0.5 text-[10px] font-semibold text-text-secondary sm:bottom-3 sm:right-3 sm:px-2 sm:py-1 sm:text-xs">
+          {validateUntilLabel}
+        </span>
+      )}
     </div>
 
     <div className="flex flex-1 flex-col gap-2 p-3 sm:gap-3 sm:p-6">
@@ -95,7 +102,6 @@ export default function InfluencerCard({
         <p>조회수 {real_views?.toLocaleString()}</p>
         <p>참여율 {engagement_rate}%</p>
         <p>티어 {tier}</p>
-        {validateUntilLabel && <p>{validateUntilLabel}</p>}
       </div>
 
       <div className="mt-auto flex items-center gap-1.5 pt-1 sm:gap-2 sm:pt-2">

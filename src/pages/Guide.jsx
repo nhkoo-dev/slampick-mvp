@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/common/Header';
 import GuideFilterBar from '../components/guide/GuideFilterBar';
-import InfluencerCard from '../components/today/InfluencerCard';
+import InfluencerCard from '../components/common/InfluencerCard';
 import { getInfluencers } from '../repositories/influencerRepository';
 
 const STATS = [

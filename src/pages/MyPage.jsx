@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/common/Header';
-import InfluencerCard from '../components/today/InfluencerCard';
+import InfluencerCard from '../components/common/InfluencerCard';
 import { getMyBrand } from '../repositories/brandRepository';
 import { useFavorite } from '../hooks/useFavorite';
 

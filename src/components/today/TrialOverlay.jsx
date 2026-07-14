@@ -1,4 +1,4 @@
-import InfluencerCard from './InfluencerCard';
+import InfluencerCard from '../common/InfluencerCard';
 import Button from '../common/Button';
 
 /**

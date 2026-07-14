@@ -4,6 +4,7 @@ import FilterBar from '../components/today/FilterBar';
 import InfluencerCard from '../components/common/InfluencerCard';
 import ModeSwitcher from '../components/today/ModeSwitcher';
 import TrialOverlay from '../components/today/TrialOverlay';
+import SubscribeModal from '../components/today/SubscribeModal';
 import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
 import { useFavorite } from '../hooks/useFavorite';
@@ -30,6 +31,7 @@ export default function TodayList() {
   // 3축(가용성/적합도/성과) 다중 선택 상태. 비어있으면 '전체'를 의미한다
   const [selectedAxes, setSelectedAxes] = useState(new Set());
   const [selectedSort, setSelectedSort] = useState(SORT_DEFAULT);
+  const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
 
   const isPremiumTier = tier === 'premium';
   // viewMode가 'premium'이 아니면 전부 trial 화면으로 취급
@@ -148,7 +150,12 @@ export default function TodayList() {
   }
 
   const handleSubscribeClick = () => {
-    alert('구독하기 기능은 준비 중입니다.');
+    setIsSubscribeModalOpen(true);
+  };
+
+  const handleConfirmSubscribe = () => {
+    alert('결제 기능은 준비 중입니다.');
+    setIsSubscribeModalOpen(false);
   };
 
   return (
@@ -218,6 +225,12 @@ export default function TodayList() {
           />
         )}
       </main>
+
+      <SubscribeModal
+        isOpen={isSubscribeModalOpen}
+        onClose={() => setIsSubscribeModalOpen(false)}
+        onConfirm={handleConfirmSubscribe}
+      />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import TrialOverlay from '../components/today/TrialOverlay';
 import SubscribeModal from '../components/today/SubscribeModal';
 import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
+import { createSubscription } from '../repositories/subscriptionRepository';
 import { useFavorite } from '../hooks/useFavorite';
 import { filterInfluencers } from '../utils/filterInfluencers';
 import { sortInfluencers, SORT_DEFAULT } from '../utils/sortInfluencers';
@@ -153,9 +154,21 @@ export default function TodayList() {
     setIsSubscribeModalOpen(true);
   };
 
-  const handleConfirmSubscribe = () => {
-    alert('결제 기능은 준비 중입니다.');
-    setIsSubscribeModalOpen(false);
+  // 결제하기 클릭 시 subscriptions 생성 + brand_user tier 갱신 RPC를 호출한다.
+  // 성공하면 서버 재조회 없이 로컬 상태(tier/viewMode/brand)를 바로 premium으로 반영한다.
+  const handleConfirmSubscribe = async () => {
+    try {
+      await createSubscription({ brand_id: brand?.id });
+
+      setTier('premium');
+      setViewMode('premium');
+      setBrand((prev) => (prev ? { ...prev, tier: 'premium' } : prev));
+    } catch (error) {
+      // RPC가 던지는 에러 메시지(이미 구독 중, brand_user 없음 등)를 그대로 노출한다
+      alert(error.message ?? '구독 처리 중 오류가 발생했습니다.');
+    } finally {
+      setIsSubscribeModalOpen(false);
+    }
   };
 
   return (

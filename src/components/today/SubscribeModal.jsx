@@ -11,7 +11,7 @@ const FEATURES = [
 
 /**
  * TodayList의 trial 화면에서 "구독하기"를 누르면 뜨는 결제 확인 모달.
- * 실제 결제 연동 전까지는 onConfirm에서 준비 중 알림만 띄운다.
+ * onConfirm에서 실제 결제 게이트웨이 연동 없이 subscriptions 생성 RPC를 바로 호출한다.
  *
  * @param {boolean} isOpen - 모달 표시 여부
  * @param {() => void} onClose - 취소 버튼 또는 배경 클릭 시 호출

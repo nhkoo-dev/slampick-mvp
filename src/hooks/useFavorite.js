@@ -14,7 +14,7 @@ import {
  *
  * TodayList, MyPage 등 여러 페이지에서 공통으로 사용한다.
  */
-export function useFavorite(brandId) {
+export function useFavorite(brandId, tier = 'trial') {
   const [pickedIds, setPickedIds] = useState(new Set());
 
     /**
@@ -25,11 +25,11 @@ export function useFavorite(brandId) {
   const loadFavorites = useCallback(async () => {
     if (!brandId) return [];
 
-    const picks = await getPickedInfluencers(brandId);
+    const picks = await getPickedInfluencers(brandId, tier);
     setPickedIds(new Set(picks.map((pick) => pick.id)));
 
     return picks;
-  }, [brandId]);
+  }, [brandId, tier]);
 
     /**
    * 좋아요(저장) 상태를 토글한다.

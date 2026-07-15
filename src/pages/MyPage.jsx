@@ -8,7 +8,15 @@ export default function MyPage() {
   const [influencers, setInfluencers] = useState([]);
   const [brand, setBrand] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const { pickedIds, loadFavorites, toggleFavorite } = useFavorite(brand?.id);
+
+  // RLS상 influencers 테이블은 premium tier만 직접 읽을 수 있어서,
+  // 찜 상세 조회 시 어느 테이블을 볼지 useFavorite에 tier를 알려줘야 한다
+  let tier = 'trial';
+  if (brand?.tier === 'premium') {
+    tier = 'premium';
+  }
+
+  const { pickedIds, loadFavorites, toggleFavorite } = useFavorite(brand?.id, tier);
 
   useEffect(() => {
     async function loadBrand() {

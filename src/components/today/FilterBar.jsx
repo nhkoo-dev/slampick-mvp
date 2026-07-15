@@ -1,22 +1,22 @@
 import Card from '../common/Card';
 import { FilterPill } from '../common/FilterPill';
+import FollowerRangeDropdown from './FollowerRangeDropdown';
 
 export { FilterPill };
 
-function FilterGroup({ options, selected, onSelect, disabled }) {
+function FilterGroup({ options, selected, onSelect }) {
   return options.map((option) => (
     <FilterPill
       key={option}
       label={option}
       active={selected === option}
       onClick={() => onSelect(option)}
-      disabled={disabled}
     />
   ));
 }
 
 // 3축(가용성/적합도/성과)은 다중 선택 가능. '전체'는 선택된 축이 없을 때의 상태를 의미한다.
-function AxisFilterGroup({ options, selectedAxes, onToggle, disabled }) {
+function AxisFilterGroup({ options, selectedAxes, onToggle }) {
   return options.map((option) => {
     let active;
 
@@ -32,7 +32,6 @@ function AxisFilterGroup({ options, selectedAxes, onToggle, disabled }) {
         label={option}
         active={active}
         onClick={() => onToggle(option)}
-        disabled={disabled}
       />
     );
   });
@@ -44,37 +43,18 @@ const AXES = ['전체', '가용성', '적합도', '성과'];
 const SORTS = ['기본', '단가↑', '단가↓'];
 
 export default function FilterBar({
-  isTrial = false,
   selectedRegion,
   setSelectedRegion,
   selectedTier,
   setSelectedTier,
+  followerMin,
+  followerMax,
+  onChangeFollowerRange,
   selectedAxes,
   onToggleAxis,
   selectedSort,
   setSelectedSort,
 }) {
-  // trial이면 선택값을 항상 '전체'로 고정하고 setter는 호출되지 않는 no-op으로 대체한다
-  let region = selectedRegion;
-  let onSelectRegion = setSelectedRegion;
-  let tier = selectedTier;
-  let onSelectTier = setSelectedTier;
-  let axes = selectedAxes;
-  let handleToggleAxis = onToggleAxis;
-  let sort = selectedSort;
-  let onSelectSort = setSelectedSort;
-
-  if (isTrial) {
-    region = '전체';
-    onSelectRegion = () => {};
-    tier = '전체';
-    onSelectTier = () => {};
-    axes = new Set();
-    handleToggleAxis = () => {};
-    sort = '기본';
-    onSelectSort = () => {};
-  }
-
   return (
     <Card glass className="p-5">
       <div className="flex flex-wrap items-center gap-3">
@@ -83,9 +63,8 @@ export default function FilterBar({
         </span>
         <FilterGroup
           options={REGIONS}
-          selected={region}
-          onSelect={onSelectRegion}
-          disabled={isTrial}
+          selected={selectedRegion}
+          onSelect={setSelectedRegion}
         />
       </div>
 
@@ -95,9 +74,13 @@ export default function FilterBar({
         </span>
         <FilterGroup
           options={TIERS}
-          selected={tier}
-          onSelect={onSelectTier}
-          disabled={isTrial}
+          selected={selectedTier}
+          onSelect={setSelectedTier}
+        />
+        <FollowerRangeDropdown
+          followerMin={followerMin}
+          followerMax={followerMax}
+          onChangeFollowerRange={onChangeFollowerRange}
         />
       </div>
 
@@ -107,9 +90,8 @@ export default function FilterBar({
         </span>
         <AxisFilterGroup
           options={AXES}
-          selectedAxes={axes}
-          onToggle={handleToggleAxis}
-          disabled={isTrial}
+          selectedAxes={selectedAxes}
+          onToggle={onToggleAxis}
         />
       </div>
 
@@ -119,9 +101,8 @@ export default function FilterBar({
         </span>
         <FilterGroup
           options={SORTS}
-          selected={sort}
-          onSelect={onSelectSort}
-          disabled={isTrial}
+          selected={selectedSort}
+          onSelect={setSelectedSort}
         />
       </div>
 

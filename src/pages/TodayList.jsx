@@ -9,11 +9,11 @@ import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
 import { createSubscription } from '../repositories/subscriptionRepository';
 import { useFavorite } from '../hooks/useFavorite';
+import { useInfluencerFilters } from '../hooks/useInfluencerFilters';
 import { filterInfluencers } from '../utils/filterInfluencers';
-import { sortInfluencers, SORT_DEFAULT } from '../utils/sortInfluencers';
+import { sortInfluencers } from '../utils/sortInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
 
-const TRIAL_VISIBLE_COUNT = 20;
 const TRIAL_PLACEHOLDER_COUNT = 8;
 
 export default function TodayList() {
@@ -27,36 +27,12 @@ export default function TodayList() {
   const [tier, setTier] = useState('trial');
   // viewMode: 화면에 실제로 표시 중인 모드. premium tier 유저만 버튼으로 전환 가능
   const [viewMode, setViewMode] = useState('trial');
-  const [selectedRegion, setSelectedRegion] = useState('전체');
-  const [selectedTier, setSelectedTier] = useState('전체');
-  // 3축(가용성/적합도/성과) 다중 선택 상태. 비어있으면 '전체'를 의미한다
-  const [selectedAxes, setSelectedAxes] = useState(new Set());
-  const [selectedSort, setSelectedSort] = useState(SORT_DEFAULT);
+  const filters = useInfluencerFilters();
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
 
   const isPremiumTier = tier === 'premium';
   // viewMode가 'premium'이 아니면 전부 trial 화면으로 취급
   const isTrial = viewMode !== 'premium';
-
-  // '전체'를 누르면 선택된 축을 모두 지우고, 그 외 축은 다중 토글된다
-  const handleToggleAxis = (axis) => {
-    if (axis === '전체') {
-      setSelectedAxes(new Set());
-      return;
-    }
-
-    setSelectedAxes((prev) => {
-      const next = new Set(prev);
-
-      if (next.has(axis)) {
-        next.delete(axis);
-      } else {
-        next.add(axis);
-      }
-
-      return next;
-    });
-  };
 
   // 내 브랜드의 구독 tier를 조회한다.
   // premium tier면 기본 화면을 premium으로 두고 버튼으로 trial 미리보기까지 가능하게 하고,
@@ -111,34 +87,24 @@ export default function TodayList() {
 
   // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외하고 rate_card 기준으로 정렬한다
   const filteredInfluencers = sortInfluencers(
-    filterInfluencers(influencers, {
-      isTrial,
-      selectedRegion,
-      selectedTier,
-      selectedAxes,
-    }).filter((influencer) => !excludedIds.has(influencer.id)),
-    isTrial ? SORT_DEFAULT : selectedSort
+    filterInfluencers(influencers, filters).filter(
+      (influencer) => !excludedIds.has(influencer.id)
+    ),
+    filters.selectedSort
   );
 
   // 3축 버튼 선택이 바뀔 때마다 필터링된 데이터 개수를 로그로 확인한다
   useEffect(() => {
     let axesLabel;
 
-    if (selectedAxes.size === 0) {
+    if (filters.selectedAxes.size === 0) {
       axesLabel = '전체';
     } else {
-      axesLabel = Array.from(selectedAxes).join('+');
+      axesLabel = Array.from(filters.selectedAxes).join('+');
     }
 
     console.log(`[filterInfluencers] axes=${axesLabel} count=${filteredInfluencers.length}`);
-  }, [selectedAxes, filteredInfluencers.length]);
-
-  // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
-  let visibleInfluencers = filteredInfluencers;
-
-  if (isTrial) {
-    visibleInfluencers = filteredInfluencers.slice(0, TRIAL_VISIBLE_COUNT);
-  }
+  }, [filters.selectedAxes, filteredInfluencers.length]);
 
   // premium tier 유저가 체험 화면을 미리보는 경우에는 구독 유도 블러를 보여주지 않는다
   let placeholderInfluencers = [];
@@ -206,22 +172,12 @@ export default function TodayList() {
           <span>›</span>
         </div>
 
-        <div className="mt-6">
-          <FilterBar
-            isTrial={isTrial}
-            selectedRegion={selectedRegion}
-            setSelectedRegion={setSelectedRegion}
-            selectedTier={selectedTier}
-            setSelectedTier={setSelectedTier}
-            selectedAxes={selectedAxes}
-            onToggleAxis={handleToggleAxis}
-            selectedSort={selectedSort}
-            setSelectedSort={setSelectedSort}
-          />
+        <div className="relative z-20 mt-6">
+          <FilterBar {...filters} />
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-          {visibleInfluencers.map((influencer) => (
+          {filteredInfluencers.map((influencer) => (
             <InfluencerCard
               key={influencer.id}
               {...influencer}

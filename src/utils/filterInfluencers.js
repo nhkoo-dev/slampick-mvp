@@ -1,3 +1,5 @@
+import { FOLLOWER_MIN_BOUND, FOLLOWER_UNBOUNDED_MAX } from './followerRange';
+
 // FilterBar에서 사용하는 한글 라벨 -> 실제 데이터의 tier 값 매핑
 const TIER_MAP = {
   메가: 'MEGA',
@@ -15,8 +17,6 @@ const REGION_MAP = {
 
 /**
  * 선택된 region/tier/3축 조건으로 influencer 목록을 필터링한다.
- * trial 모드에서는 필터 UI 자체는 보이지만 클릭이 동작하지 않아야 하므로
- * isTrial이 true면 필터링 없이 원본 목록을 그대로 반환한다.
  *
  * 3축(selectedAxes)은 다중 선택이 가능하며, 선택된 축은 모두 AND로 적용된다.
  * 예) {가용성, 적합도}가 선택되면 두 조건을 모두 만족하는 influencer만 남는다.
@@ -24,21 +24,20 @@ const REGION_MAP = {
  *
  * @param {object[]} influencers - 필터링할 influencer 목록
  * @param {object} options
- * @param {boolean} options.isTrial - trial 화면 여부 (true면 필터를 적용하지 않음)
  * @param {string} options.selectedRegion - FilterBar에서 선택된 지역 (한글 라벨, '전체'면 전체 노출)
  * @param {string} options.selectedTier - FilterBar에서 선택된 등급 (한글 라벨, '전체'면 전체 노출)
  * @param {Set<string>} [options.selectedAxes] - FilterBar에서 선택된 3축 라벨 집합 (비어있으면 전체 노출)
+ * @param {number} [options.followerMin] - 팔로워수 드롭다운에서 선택된 하한 (FOLLOWER_MIN_BOUND면 하한 없음)
+ * @param {number} [options.followerMax] - 팔로워수 드롭다운에서 선택된 상한 (FOLLOWER_UNBOUNDED_MAX면 상한 없음)
  * @returns {object[]} 필터링된 influencer 목록
  */
 export function filterInfluencers(
   influencers,
-  { isTrial, selectedRegion, selectedTier, selectedAxes }
+  { selectedRegion, selectedTier, selectedAxes, followerMin, followerMax }
 ) {
-  if (isTrial) {
-    return influencers;
-  }
-
   const axes = selectedAxes ?? new Set();
+  const minFollowers = followerMin ?? FOLLOWER_MIN_BOUND;
+  const maxFollowers = followerMax ?? FOLLOWER_UNBOUNDED_MAX;
 
   return influencers.filter((influencer) => {
     const matchesRegion =
@@ -47,7 +46,17 @@ export function filterInfluencers(
       selectedTier === '전체' || influencer.tier === TIER_MAP[selectedTier];
     const matchesAvailability = !axes.has('가용성') || influencer.isAvailable === true;
     const matchesGuideFit = !axes.has('적합도') || influencer.isGuideFit === true;
+    const matchesFollowersMin =
+      minFollowers <= FOLLOWER_MIN_BOUND || influencer.followers >= minFollowers;
+    const matchesFollowersMax = influencer.followers <= maxFollowers;
 
-    return matchesRegion && matchesTier && matchesAvailability && matchesGuideFit;
+    return (
+      matchesRegion &&
+      matchesTier &&
+      matchesAvailability &&
+      matchesGuideFit &&
+      matchesFollowersMin &&
+      matchesFollowersMax
+    );
   });
 }

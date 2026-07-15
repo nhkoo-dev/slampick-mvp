@@ -14,7 +14,6 @@ import { filterInfluencers } from '../utils/filterInfluencers';
 import { sortInfluencers } from '../utils/sortInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
 
-const TRIAL_VISIBLE_COUNT = 20;
 const TRIAL_PLACEHOLDER_COUNT = 8;
 
 export default function TodayList() {
@@ -107,13 +106,6 @@ export default function TodayList() {
     console.log(`[filterInfluencers] axes=${axesLabel} count=${filteredInfluencers.length}`);
   }, [filters.selectedAxes, filteredInfluencers.length]);
 
-  // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
-  let visibleInfluencers = filteredInfluencers;
-
-  if (isTrial) {
-    visibleInfluencers = filteredInfluencers.slice(0, TRIAL_VISIBLE_COUNT);
-  }
-
   // premium tier 유저가 체험 화면을 미리보는 경우에는 구독 유도 블러를 보여주지 않는다
   let placeholderInfluencers = [];
 
@@ -185,7 +177,7 @@ export default function TodayList() {
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-          {visibleInfluencers.map((influencer) => (
+          {filteredInfluencers.map((influencer) => (
             <InfluencerCard
               key={influencer.id}
               {...influencer}

@@ -22,9 +22,9 @@ export default function TodayList() {
   // 페이지 진입 시점에 이미 저장되어 있던 influencer id 스냅샷. 리스트 노출 여부를 결정할 때만 사용하고,
   // 같은 화면에서 좋아요를 누른다고 즉시 갱신하지 않는다 (새로고침/재진입 시에만 갱신됨)
   const [excludedIds, setExcludedIds] = useState(new Set());
-  const { pickedIds, loadFavorites, toggleFavorite } = useFavorite(brand?.id);
   // tier: 실제 구독 등급 (서버 조회 결과, 사용자가 바꿀 수 없음)
   const [tier, setTier] = useState('trial');
+  const { pickedIds, loadFavorites, toggleFavorite } = useFavorite(brand?.id, tier);
   // viewMode: 화면에 실제로 표시 중인 모드. premium tier 유저만 버튼으로 전환 가능
   const [viewMode, setViewMode] = useState('trial');
   const filters = useInfluencerFilters();

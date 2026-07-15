@@ -36,9 +36,13 @@ src/
 │   │   └── InfluencerCardBody.jsx   #   팔로워/단가/지표 + 즐겨찾기·연락하기 버튼
 │   │
 │   ├── today/                       # '오늘의 리스트'(TodayList) 화면 전용
-│   │   ├── FilterBar.jsx            #   지역/플랫폼/카테고리/연령대/티어/3축/정렬 필터 묶음
-│   │   ├── FollowerRangeDropdown.jsx  # 팔로워수 프리셋+슬라이더 드롭다운 (티어 버튼과 배타적)
-│   │   ├── RateRangeDropdown.jsx    #   단가 프리셋+슬라이더 드롭다운 (정렬 버튼과 독립적)
+│   │   ├── filters/                 #   필터바 관련 컴포넌트 (역할별로 분리)
+│   │   │   ├── FilterBar.jsx        #     Card + 아코디언(상세 필터) 토글 state, 조립만 담당
+│   │   │   ├── PrimaryFilters.jsx   #     항상 노출: 플랫폼/카테고리/티어(+팔로워수)
+│   │   │   ├── AdvancedFilters.jsx  #     아코디언 열렸을 때만 노출: 지역/연령대/3축/정렬(+단가)
+│   │   │   ├── FilterGroup.jsx      #     FilterGroup/AxisFilterGroup 공용 렌더 헬퍼
+│   │   │   ├── FollowerRangeDropdown.jsx  # 팔로워수 프리셋+슬라이더 드롭다운 (티어 버튼과 배타적)
+│   │   │   └── RateRangeDropdown.jsx #    단가 프리셋+슬라이더 드롭다운 (정렬 버튼과 독립적)
 │   │   ├── ModeSwitcher.jsx         #   premium 유저 전용 구독/체험 화면 전환 버튼
 │   │   ├── TrialOverlay.jsx         #   체험 모드 블러 placeholder + 구독 유도 오버레이
 │   │   └── SubscribeModal.jsx       #   구독 확인 모달

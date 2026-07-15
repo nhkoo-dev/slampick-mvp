@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/common/Header';
-import FilterBar from '../components/today/FilterBar';
+import FilterBar from '../components/today/filters/FilterBar';
 import InfluencerCard from '../components/common/InfluencerCard';
 import ModeSwitcher from '../components/today/ModeSwitcher';
 import TrialOverlay from '../components/today/TrialOverlay';

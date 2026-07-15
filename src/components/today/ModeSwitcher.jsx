@@ -1,4 +1,4 @@
-import { FilterPill } from './FilterBar';
+import { FilterPill } from './filters/FilterBar';
 
 const MODES = [
   { value: 'premium', label: '구독(실시간)' },

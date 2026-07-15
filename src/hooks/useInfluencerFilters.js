@@ -4,7 +4,7 @@ import { RATE_MIN_BOUND, RATE_UNBOUNDED_MAX } from '../utils/rateRange';
 import { SORT_DEFAULT } from '../utils/sortInfluencers';
 
 /**
- * 오늘의 리스트 필터바(지역/플랫폼/카테고리/티어/팔로워수/3축/정렬/단가) 상태를 관리하는 커스텀 Hook.
+ * 오늘의 리스트 필터바(지역/플랫폼/카테고리/연령대/티어/팔로워수/3축/정렬/단가) 상태를 관리하는 커스텀 Hook.
  *
  * 티어 버튼과 팔로워수 범위는 서로 배타적으로 동작한다:
  * - 티어를 선택하면 팔로워수 범위는 기본값(전체 구간)으로 초기화되고
@@ -20,6 +20,7 @@ export function useInfluencerFilters() {
   const [selectedRegion, setSelectedRegion] = useState('전체');
   const [selectedPlatform, setSelectedPlatform] = useState('전체');
   const [selectedCategory, setSelectedCategory] = useState('전체');
+  const [selectedAgeGroup, setSelectedAgeGroup] = useState('전체');
   const [selectedTier, setSelectedTier] = useState('전체');
   const [followerMin, setFollowerMin] = useState(FOLLOWER_MIN_BOUND);
   const [followerMax, setFollowerMax] = useState(FOLLOWER_UNBOUNDED_MAX);
@@ -76,6 +77,8 @@ export function useInfluencerFilters() {
     setSelectedPlatform,
     selectedCategory,
     setSelectedCategory,
+    selectedAgeGroup,
+    setSelectedAgeGroup,
     selectedTier,
     setSelectedTier: handleSelectTier,
     followerMin,

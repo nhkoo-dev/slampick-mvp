@@ -27,8 +27,16 @@ const CATEGORY_MAP = {
   '의료·건강관리': 'healthcare',
 };
 
+// FilterBar에서 사용하는 한글 라벨 -> 실제 데이터의 age_group 값 매핑
+const AGE_GROUP_MAP = {
+  '10대': '10s',
+  '20대': '20s',
+  '30대': '30s',
+  '40대+': '40s_plus',
+};
+
 /**
- * 선택된 region/platform/category/tier/3축 조건으로 influencer 목록을 필터링한다.
+ * 선택된 region/platform/category/age_group/tier/3축 조건으로 influencer 목록을 필터링한다.
  *
  * 3축(selectedAxes)은 다중 선택이 가능하며, 선택된 축은 모두 AND로 적용된다.
  * 예) {가용성, 적합도}가 선택되면 두 조건을 모두 만족하는 influencer만 남는다.
@@ -39,6 +47,7 @@ const CATEGORY_MAP = {
  * @param {string} options.selectedRegion - FilterBar에서 선택된 지역 (한글 라벨, '전체'면 전체 노출)
  * @param {string} options.selectedPlatform - FilterBar에서 선택된 플랫폼 ('전체'면 전체 노출, 대소문자 무관 비교)
  * @param {string} options.selectedCategory - FilterBar에서 선택된 카테고리 (한글 라벨, '전체'면 전체 노출)
+ * @param {string} options.selectedAgeGroup - FilterBar에서 선택된 연령대 (한글 라벨, '전체'면 전체 노출)
  * @param {string} options.selectedTier - FilterBar에서 선택된 등급 (한글 라벨, '전체'면 전체 노출)
  * @param {Set<string>} [options.selectedAxes] - FilterBar에서 선택된 3축 라벨 집합 (비어있으면 전체 노출)
  * @param {number} [options.followerMin] - 팔로워수 드롭다운에서 선택된 하한 (FOLLOWER_MIN_BOUND면 하한 없음)
@@ -53,6 +62,7 @@ export function filterInfluencers(
     selectedRegion,
     selectedPlatform,
     selectedCategory,
+    selectedAgeGroup,
     selectedTier,
     selectedAxes,
     followerMin,
@@ -75,6 +85,8 @@ export function filterInfluencers(
       influencer.platform?.toLowerCase() === selectedPlatform.toLowerCase();
     const matchesCategory =
       selectedCategory === '전체' || influencer.category === CATEGORY_MAP[selectedCategory];
+    const matchesAgeGroup =
+      selectedAgeGroup === '전체' || influencer.age_group === AGE_GROUP_MAP[selectedAgeGroup];
     const matchesTier =
       selectedTier === '전체' || influencer.tier === TIER_MAP[selectedTier];
     const matchesAvailability = !axes.has('가용성') || influencer.isAvailable === true;
@@ -90,6 +102,7 @@ export function filterInfluencers(
       matchesRegion &&
       matchesPlatform &&
       matchesCategory &&
+      matchesAgeGroup &&
       matchesTier &&
       matchesAvailability &&
       matchesGuideFit &&

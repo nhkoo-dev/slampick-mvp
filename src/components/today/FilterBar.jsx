@@ -50,6 +50,7 @@ const CATEGORIES = [
   '게임',
   '의료·건강관리',
 ];
+const AGE_GROUPS = ['전체', '10대', '20대', '30대', '40대+'];
 const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
 const SORTS = ['기본', '단가↑', '단가↓'];
@@ -61,6 +62,8 @@ export default function FilterBar({
   setSelectedPlatform,
   selectedCategory,
   setSelectedCategory,
+  selectedAgeGroup,
+  setSelectedAgeGroup,
   selectedTier,
   setSelectedTier,
   followerMin,
@@ -106,6 +109,17 @@ export default function FilterBar({
           options={CATEGORIES}
           selected={selectedCategory}
           onSelect={setSelectedCategory}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <span className="w-16 shrink-0 text-sm font-semibold text-text-secondary">
+          연령대
+        </span>
+        <FilterGroup
+          options={AGE_GROUPS}
+          selected={selectedAgeGroup}
+          onSelect={setSelectedAgeGroup}
         />
       </div>
 

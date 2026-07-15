@@ -13,4 +13,5 @@
 | engagement_rate | numeric | 협찬, 광고에 대한 협업률 |
 | thumbnail_url | text | 인플루언서 프로필 썸네일 url |
 | status | text | 인플루언서 활동 상태 (active, inactive) |
-| category | text | 인플루언서의 주요 카테고리 beauty, hair, fashion, food_beverage... |
+| category | text | 인플루언서의 주요 카테고리 beauty, hair, fashion, food_beverage, home_appliances, gaming, healthcare |
+| age_group | 인플루언서 연령대 | 10s, 20s, 30s, 40s_plus |

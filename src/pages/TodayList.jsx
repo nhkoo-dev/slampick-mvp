@@ -9,10 +9,10 @@ import { getInfluencers } from '../repositories/influencerRepository';
 import { getMyBrand } from '../repositories/brandRepository';
 import { createSubscription } from '../repositories/subscriptionRepository';
 import { useFavorite } from '../hooks/useFavorite';
+import { useInfluencerFilters } from '../hooks/useInfluencerFilters';
 import { filterInfluencers } from '../utils/filterInfluencers';
-import { sortInfluencers, SORT_DEFAULT } from '../utils/sortInfluencers';
+import { sortInfluencers } from '../utils/sortInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
-import { FOLLOWER_MIN_BOUND, FOLLOWER_UNBOUNDED_MAX } from '../utils/followerRange';
 
 const TRIAL_VISIBLE_COUNT = 20;
 const TRIAL_PLACEHOLDER_COUNT = 8;
@@ -28,53 +28,12 @@ export default function TodayList() {
   const [tier, setTier] = useState('trial');
   // viewMode: 화면에 실제로 표시 중인 모드. premium tier 유저만 버튼으로 전환 가능
   const [viewMode, setViewMode] = useState('trial');
-  const [selectedRegion, setSelectedRegion] = useState('전체');
-  const [selectedTier, setSelectedTier] = useState('전체');
-  // 팔로워수 범위(드롭다운 프리셋/직접입력/슬라이더 공용). 티어 버튼과 배타적으로 동작한다
-  const [followerMin, setFollowerMin] = useState(FOLLOWER_MIN_BOUND);
-  const [followerMax, setFollowerMax] = useState(FOLLOWER_UNBOUNDED_MAX);
-  // 3축(가용성/적합도/성과) 다중 선택 상태. 비어있으면 '전체'를 의미한다
-  const [selectedAxes, setSelectedAxes] = useState(new Set());
-  const [selectedSort, setSelectedSort] = useState(SORT_DEFAULT);
+  const filters = useInfluencerFilters();
   const [isSubscribeModalOpen, setIsSubscribeModalOpen] = useState(false);
 
   const isPremiumTier = tier === 'premium';
   // viewMode가 'premium'이 아니면 전부 trial 화면으로 취급
   const isTrial = viewMode !== 'premium';
-
-  // '전체'를 누르면 선택된 축을 모두 지우고, 그 외 축은 다중 토글된다
-  const handleToggleAxis = (axis) => {
-    if (axis === '전체') {
-      setSelectedAxes(new Set());
-      return;
-    }
-
-    setSelectedAxes((prev) => {
-      const next = new Set(prev);
-
-      if (next.has(axis)) {
-        next.delete(axis);
-      } else {
-        next.add(axis);
-      }
-
-      return next;
-    });
-  };
-
-  // 티어 버튼(전체/메가/미드/나노)을 선택하면 팔로워수 범위 필터는 기본값(전체 구간)으로 초기화한다
-  const handleSelectTier = (nextTier) => {
-    setSelectedTier(nextTier);
-    setFollowerMin(FOLLOWER_MIN_BOUND);
-    setFollowerMax(FOLLOWER_UNBOUNDED_MAX);
-  };
-
-  // 팔로워수 범위(프리셋/직접입력/슬라이더)를 조정하면 티어 버튼 선택은 '전체'로 자동 해제한다
-  const handleChangeFollowerRange = (min, max) => {
-    setFollowerMin(min);
-    setFollowerMax(max);
-    setSelectedTier('전체');
-  };
 
   // 내 브랜드의 구독 tier를 조회한다.
   // premium tier면 기본 화면을 premium으로 두고 버튼으로 trial 미리보기까지 가능하게 하고,
@@ -129,28 +88,24 @@ export default function TodayList() {
 
   // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외하고 rate_card 기준으로 정렬한다
   const filteredInfluencers = sortInfluencers(
-    filterInfluencers(influencers, {
-      selectedRegion,
-      selectedTier,
-      selectedAxes,
-      followerMin,
-      followerMax,
-    }).filter((influencer) => !excludedIds.has(influencer.id)),
-    selectedSort
+    filterInfluencers(influencers, filters).filter(
+      (influencer) => !excludedIds.has(influencer.id)
+    ),
+    filters.selectedSort
   );
 
   // 3축 버튼 선택이 바뀔 때마다 필터링된 데이터 개수를 로그로 확인한다
   useEffect(() => {
     let axesLabel;
 
-    if (selectedAxes.size === 0) {
+    if (filters.selectedAxes.size === 0) {
       axesLabel = '전체';
     } else {
-      axesLabel = Array.from(selectedAxes).join('+');
+      axesLabel = Array.from(filters.selectedAxes).join('+');
     }
 
     console.log(`[filterInfluencers] axes=${axesLabel} count=${filteredInfluencers.length}`);
-  }, [selectedAxes, filteredInfluencers.length]);
+  }, [filters.selectedAxes, filteredInfluencers.length]);
 
   // trial은 실제 데이터를 20개까지만 노출하고 나머지는 블러 placeholder로 대체
   let visibleInfluencers = filteredInfluencers;
@@ -226,19 +181,7 @@ export default function TodayList() {
         </div>
 
         <div className="relative z-20 mt-6">
-          <FilterBar
-            selectedRegion={selectedRegion}
-            setSelectedRegion={setSelectedRegion}
-            selectedTier={selectedTier}
-            setSelectedTier={handleSelectTier}
-            followerMin={followerMin}
-            followerMax={followerMax}
-            onChangeFollowerRange={handleChangeFollowerRange}
-            selectedAxes={selectedAxes}
-            onToggleAxis={handleToggleAxis}
-            selectedSort={selectedSort}
-            setSelectedSort={setSelectedSort}
-          />
+          <FilterBar {...filters} />
         </div>
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">

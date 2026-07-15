@@ -25,80 +25,80 @@ src/
 ├── index.css
 │
 ├── domain/                          # 페이지 전용 기능을 도메인 단위로 묶은 영역 (feature-first)
-│   └── today/                       # '오늘의 리스트' 도메인 — 다른 화면과 거의 겹치지 않는 것만 여기 있음
-│       ├── TodayList.jsx            #   페이지 컴포넌트 ('/today', 로그인 필요)
-│       ├── components/
-│       │   ├── filters/             #   필터바 관련 컴포넌트 (역할별로 분리)
-│       │   │   ├── FilterBar.jsx       #     Card + 아코디언(상세 필터) 토글 state, 조립만 담당
-│       │   │   ├── PrimaryFilters.jsx  #     항상 노출: 플랫폼/카테고리/티어(+팔로워수)
-│       │   │   ├── AdvancedFilters.jsx #     아코디언 열렸을 때만 노출: 지역/연령대/3축/정렬(+단가)
-│       │   │   ├── FilterGroup.jsx     #     FilterGroup/AxisFilterGroup 공용 렌더 헬퍼
-│       │   │   ├── FollowerRangeDropdown.jsx # 팔로워수 프리셋+슬라이더 드롭다운 (티어 버튼과 배타적)
-│       │   │   └── RateRangeDropdown.jsx     # 단가 프리셋+슬라이더 드롭다운 (정렬 버튼과 독립적)
-│       │   ├── ModeSwitcher.jsx     #   premium 유저 전용 구독/체험 화면 전환 버튼
-│       │   ├── TrialOverlay.jsx     #   체험 모드 블러 placeholder + 구독 유도 오버레이
-│       │   └── SubscribeModal.jsx   #   구독 확인 모달
-│       ├── hooks/
-│       │   └── useInfluencerFilters.js # 필터바 상태 전체를 관리하는 Hook
-│       │                            #   (티어↔팔로워수 배타, FilterBar가 받는 prop과 그대로 대응)
-│       ├── utils/
-│       │   ├── filterInfluencers.js # 선택된 필터 조건으로 influencer 배열 필터링
-│       │   ├── sortInfluencers.js   # 단가 기준 정렬 (기본/단가↑/단가↓)
-│       │   ├── followerRange.js     # 팔로워수 필터 프리셋 및 경계값 상수
-│       │   ├── rateRange.js         # 단가 필터 프리셋 및 경계값 상수
-│       │   └── trialPlaceholder.js  # 체험 모드 블러 placeholder 카드 생성
-│       └── repository/
-│           └── subscriptionRepository.js # 구독 생성 RPC 호출
-│
-├── components/
-│   ├── common/                      # 여러 화면에서 재사용되는 공통 UI (TodayList/MyPage/Guide 공용)
-│   │   ├── Header.jsx               #   상단 네비게이션 (로그인 상태에 따라 분기, minimal 모드 지원)
-│   │   ├── Button.jsx               #   variant/size 조합의 공통 버튼
-│   │   ├── Card.jsx                 #   카드 레이아웃 공통 래퍼 (glass/hover 옵션)
-│   │   ├── Reveal.jsx               #   스크롤 시 fade-in + slide-up 애니메이션 래퍼
-│   │   ├── FilterPill.jsx           #   필터 버튼(pill) 하나 (active/disabled 스타일)
-│   │   ├── InfluencerCard.jsx       #   인플루언서 카드 (Thumbnail + Body 조합)
-│   │   ├── InfluencerCardThumbnail.jsx  #   9:16 썸네일 + region/tier 배지 오버레이
-│   │   └── InfluencerCardBody.jsx   #   팔로워/단가/지표 + 즐겨찾기·연락하기 버튼
+│   ├── today/                       # '오늘의 리스트' 도메인
+│   │   ├── TodayList.jsx            #   페이지 컴포넌트 ('/today', 로그인 필요)
+│   │   ├── components/
+│   │   │   ├── filters/             #   필터바 관련 컴포넌트 (역할별로 분리)
+│   │   │   │   ├── FilterBar.jsx       #     Card + 아코디언(상세 필터) 토글 state, 조립만 담당
+│   │   │   │   ├── PrimaryFilters.jsx  #     항상 노출: 플랫폼/카테고리/티어(+팔로워수)
+│   │   │   │   ├── AdvancedFilters.jsx #     아코디언 열렸을 때만 노출: 지역/연령대/3축/정렬(+단가)
+│   │   │   │   ├── FilterGroup.jsx     #     FilterGroup/AxisFilterGroup 공용 렌더 헬퍼
+│   │   │   │   ├── FollowerRangeDropdown.jsx # 팔로워수 프리셋+슬라이더 드롭다운 (티어 버튼과 배타적)
+│   │   │   │   └── RateRangeDropdown.jsx     # 단가 프리셋+슬라이더 드롭다운 (정렬 버튼과 독립적)
+│   │   │   ├── ModeSwitcher.jsx     #   premium 유저 전용 구독/체험 화면 전환 버튼
+│   │   │   ├── TrialOverlay.jsx     #   체험 모드 블러 placeholder + 구독 유도 오버레이
+│   │   │   └── SubscribeModal.jsx   #   구독 확인 모달
+│   │   ├── hooks/
+│   │   │   └── useInfluencerFilters.js # 필터바 상태 전체를 관리하는 Hook
+│   │   │                            #   (티어↔팔로워수 배타, FilterBar가 받는 prop과 그대로 대응)
+│   │   ├── utils/
+│   │   │   ├── filterInfluencers.js # 선택된 필터 조건으로 influencer 배열 필터링
+│   │   │   ├── sortInfluencers.js   # 단가 기준 정렬 (기본/단가↑/단가↓)
+│   │   │   ├── followerRange.js     # 팔로워수 필터 프리셋 및 경계값 상수
+│   │   │   ├── rateRange.js         # 단가 필터 프리셋 및 경계값 상수
+│   │   │   └── trialPlaceholder.js  # 체험 모드 블러 placeholder 카드 생성
+│   │   └── repository/
+│   │       └── subscriptionRepository.js # 구독 생성 RPC 호출
 │   │
-│   ├── guide/                       # '전략 시딩 가이드'(Guide) 화면 전용
-│   │   ├── GuideFilterBar.jsx       #   지역 필터
-│   │   └── GuideCard.jsx            #   가이드 카드 UI
+│   ├── guide/                       # '전략 시딩 가이드' 도메인 — 앞으로 파일이 늘어날 예정
+│   │   ├── Guide.jsx                #   페이지 컴포넌트 ('/guide')
+│   │   ├── components/
+│   │   │   ├── GuideFilterBar.jsx   #     지역 필터
+│   │   │   └── GuideCard.jsx        #     가이드 카드 UI (아직 어디서도 렌더링하지 않는 미사용 상태)
+│   │   └── repository/
+│   │       └── guideRepository.js   #   가이드 목데이터 조회 (getGuides()도 아직 미사용)
 │   │
-│   └── dashboard/
-│       └── DashboardMockup.jsx      # 랜딩 페이지(Home) 히어로에 쓰이는 대시보드 미리보기
+│   ├── mypage/                      # '마이페이지' 도메인
+│   │   └── MyPage.jsx               #   페이지 컴포넌트 ('/mypage', 로그인 필요)
+│   │
+│   ├── home/                        # 랜딩 페이지 도메인
+│   │   ├── Home.jsx                 #   랜딩 페이지 ('/', 로그인 상태면 오늘의 리스트로 리다이렉트)
+│   │   └── components/
+│   │       └── DashboardMockup.jsx  #     히어로에 쓰이는 대시보드 미리보기
+│   ├── auth/                        # 로그인/회원가입 도메인
+│   │   ├── Login.jsx                #   로그인 ('/login')
+│   │   └── Signup.jsx               #   회원가입 ('/signup', 브랜드·인플루언서 유형 선택)
+│   └── admin/                       # 관리자 도메인
+│       └── Admin.jsx                #   관리자 페이지 ('/admin', 준비 중 placeholder)
 │
-├── pages/                           # 라우트에 매핑되는 페이지 컴포넌트 (TodayList는 domain/today/에 있음)
-│   ├── Home.jsx                     #   랜딩 페이지 ('/', 로그인 상태면 오늘의 리스트로 리다이렉트)
-│   ├── Guide.jsx                    #   전략 시딩 가이드 ('/guide')
-│   ├── MyPage.jsx                   #   마이페이지 - 찜한 인플루언서 ('/mypage', 로그인 필요)
-│   ├── Login.jsx / Signup.jsx       #   로그인 / 회원가입 (브랜드·인플루언서 유형 선택)
-│   └── Admin.jsx                    #   관리자 페이지 ('/admin', 준비 중 placeholder)
-│
-├── hooks/
-│   └── useFavorite.js               # 찜(좋아요) 목록 조회 및 토글 (TodayList/MyPage 공용, tier 인자로 조회 테이블 분기)
-│
-├── utils/                           # 여러 화면에서 공유하는 유틸 (today 전용 유틸은 domain/today/utils로 이동)
-│   ├── influencerFormat.js          # 팔로워수/단가/날짜 등 표시용 문자열 포맷팅
-│   └── date.js                      # 날짜 문자열 파싱 유틸
-│
-├── repositories/                    # 여러 화면에서 공유하는 Supabase 데이터 조회/변경
-│   ├── influencerRepository.js      # 인플루언서 목록 조회 (premium/trial 모드별 쿼리 분기, TodayList/Guide 공용)
-│   ├── brandRepository.js           # 브랜드(brand_user) 조회/생성
-│   ├── picksInviteRepository.js     # 찜(picks_invites) 조회/추가/삭제 (tier에 따라 상세 조회 테이블 분기)
-│   └── guideRepository.js           # 가이드 목데이터 조회
-│
-├── context/
-│   └── AuthContext.jsx              # Supabase 세션을 전역으로 공유하는 Context (useAuth)
-│
-├── config/
-│   └── constants.js                 # 라우트 경로 등 앱 전역 상수
-│
-└── supabase/
-    └── client.jsx                   # Supabase client 초기화
+└── global/                          # 여러 도메인이 함께 쓰는 공용 인프라 (feature-first의 global 영역)
+    ├── components/common/           #   여러 도메인 화면에서 재사용되는 공통 UI
+    │   ├── Header.jsx               #     상단 네비게이션 (로그인 상태에 따라 분기, minimal 모드 지원)
+    │   ├── Button.jsx               #     variant/size 조합의 공통 버튼
+    │   ├── Card.jsx                 #     카드 레이아웃 공통 래퍼 (glass/hover 옵션)
+    │   ├── Reveal.jsx               #     스크롤 시 fade-in + slide-up 애니메이션 래퍼
+    │   ├── FilterPill.jsx           #     필터 버튼(pill) 하나 (active/disabled 스타일)
+    │   ├── InfluencerCard.jsx       #     인플루언서 카드 (Thumbnail + Body 조합)
+    │   ├── InfluencerCardThumbnail.jsx  #  9:16 썸네일 + region/tier 배지 오버레이
+    │   └── InfluencerCardBody.jsx   #     팔로워/단가/지표 + 즐겨찾기·연락하기 버튼
+    ├── hooks/
+    │   └── useFavorite.js           #   찜(좋아요) 목록 조회 및 토글 (today/mypage 도메인 공용, tier 인자로 조회 테이블 분기)
+    ├── utils/
+    │   ├── influencerFormat.js      #   팔로워수/단가/날짜 등 표시용 문자열 포맷팅
+    │   └── date.js                  #   날짜 문자열 파싱 유틸
+    ├── repositories/
+    │   ├── influencerRepository.js  #   인플루언서 목록 조회 (premium/trial 모드별 쿼리 분기, today/guide 도메인 공용)
+    │   ├── brandRepository.js       #   브랜드(brand_user) 조회/생성 (today/mypage/auth 도메인 공용)
+    │   └── picksInviteRepository.js #   찜(picks_invites) 조회/추가/삭제 (tier에 따라 상세 조회 테이블 분기)
+    ├── context/
+    │   └── AuthContext.jsx          #   Supabase 세션을 전역으로 공유하는 Context (useAuth)
+    ├── config/
+    │   └── constants.js             #   라우트 경로 등 앱 전역 상수
+    └── supabase/
+        └── client.jsx               #   Supabase client 초기화
 ```
 
-`domain/today/`는 다른 화면과 거의 겹치지 않는 파일들만 모아 놓은 feature 폴더입니다(스프링부트의 domain/global 구조에서 착안). `InfluencerCard`, `useFavorite`, `influencerRepository` 등 TodayList/MyPage/Guide가 함께 쓰는 것들은 여전히 `components/`, `hooks/`, `repositories/`에 남아 있습니다 — 이 프로젝트 규모에서는 억지로 도메인별로 쪼개면 오히려 빈 폴더만 늘어나기 때문입니다.
+`domain/`은 페이지 전용 기능을 도메인 단위로 묶은 영역이고(today/guide/mypage/home/auth/admin 전부 포함), `global/`은 두 개 이상의 도메인이 함께 쓰는 공용 인프라(공통 UI, hooks, utils, repositories, context, config, supabase client)를 모아둔 영역입니다 — 스프링부트의 domain/global 구조에서 착안했습니다. `today/`의 `utils`·`hooks`·`repository`처럼 한 도메인에서만 쓰는 것은 그 도메인 폴더 안에 그대로 두고, `InfluencerCard`나 `influencerRepository`처럼 여러 도메인이 같이 쓰는 것만 `global/`로 승격합니다.
 
 ---
 

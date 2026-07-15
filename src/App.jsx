@@ -2,7 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES } from './config/constants';
 import { useAuth } from './context/AuthContext';
 import Home from './pages/Home';
-import TodayList from './pages/TodayList';
+import TodayList from './domain/today/TodayList';
 import MyPage from './pages/MyPage';
 import Guide from './pages/Guide';
 import Login from './pages/Login';

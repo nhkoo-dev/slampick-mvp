@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/Header';
-import FilterBar from '../components/today/filters/FilterBar';
-import InfluencerCard from '../components/common/InfluencerCard';
-import ModeSwitcher from '../components/today/ModeSwitcher';
-import TrialOverlay from '../components/today/TrialOverlay';
-import SubscribeModal from '../components/today/SubscribeModal';
-import { getInfluencers } from '../repositories/influencerRepository';
-import { getMyBrand } from '../repositories/brandRepository';
-import { createSubscription } from '../repositories/subscriptionRepository';
-import { useFavorite } from '../hooks/useFavorite';
-import { useInfluencerFilters } from '../hooks/useInfluencerFilters';
-import { filterInfluencers } from '../utils/filterInfluencers';
-import { sortInfluencers } from '../utils/sortInfluencers';
-import { createTrialPlaceholders } from '../utils/trialPlaceholder';
+import Header from '../../components/common/Header';
+import FilterBar from './components/filters/FilterBar';
+import InfluencerCard from '../../components/common/InfluencerCard';
+import ModeSwitcher from './components/ModeSwitcher';
+import TrialOverlay from './components/TrialOverlay';
+import SubscribeModal from './components/SubscribeModal';
+import { getInfluencers } from '../../repositories/influencerRepository';
+import { getMyBrand } from '../../repositories/brandRepository';
+import { createSubscription } from './repository/subscriptionRepository';
+import { useFavorite } from '../../hooks/useFavorite';
+import { useInfluencerFilters } from './hooks/useInfluencerFilters';
+import { filterInfluencers } from './utils/filterInfluencers';
+import { sortInfluencers } from './utils/sortInfluencers';
+import { createTrialPlaceholders } from './utils/trialPlaceholder';
 
 const TRIAL_PLACEHOLDER_COUNT = 8;
 

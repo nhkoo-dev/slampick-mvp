@@ -1,4 +1,4 @@
-import { supabase } from '../supabase/client';
+import { supabase } from '../../../supabase/client';
 
 // subscriptions 생성 + brand_user tier 갱신을 Postgres 함수(create_subscription_and_update_tier)
 // 하나로 묶어서 처리한다. 함수 전체가 DB 쪽에서 단일 트랜잭션으로 실행되기 때문에,
@@ -20,7 +20,7 @@ export async function createSubscription({
     p_tier: tier,
   });
 
-  
+
 
   if (error) throw error;
 

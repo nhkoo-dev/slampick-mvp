@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import Button from '../common/Button';
+import Button from '../../../components/common/Button';
 
 // Premium Plan 체크리스트에 표시할 항목들
 const FEATURES = [

@@ -1,6 +1,7 @@
 import Card from '../common/Card';
 import { FilterPill } from '../common/FilterPill';
 import FollowerRangeDropdown from './FollowerRangeDropdown';
+import RateRangeDropdown from './RateRangeDropdown';
 
 export { FilterPill };
 
@@ -38,6 +39,17 @@ function AxisFilterGroup({ options, selectedAxes, onToggle }) {
 }
 
 const REGIONS = ['전체', 'US', '중화권', '일본', '중동'];
+const PLATFORMS = ['전체', 'YouTube', 'Instagram', 'TikTok'];
+const CATEGORIES = [
+  '전체',
+  '뷰티',
+  '헤어',
+  '의류·패션',
+  '식품·음료',
+  '생활용품·가전',
+  '게임',
+  '의료·건강관리',
+];
 const TIERS = ['전체', '메가', '미드', '나노'];
 const AXES = ['전체', '가용성', '적합도', '성과'];
 const SORTS = ['기본', '단가↑', '단가↓'];
@@ -45,6 +57,10 @@ const SORTS = ['기본', '단가↑', '단가↓'];
 export default function FilterBar({
   selectedRegion,
   setSelectedRegion,
+  selectedPlatform,
+  setSelectedPlatform,
+  selectedCategory,
+  setSelectedCategory,
   selectedTier,
   setSelectedTier,
   followerMin,
@@ -54,11 +70,14 @@ export default function FilterBar({
   onToggleAxis,
   selectedSort,
   setSelectedSort,
+  rateMin,
+  rateMax,
+  onChangeRateRange,
 }) {
   return (
     <Card glass className="p-5">
       <div className="flex flex-wrap items-center gap-3">
-        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
+        <span className="w-16 shrink-0 text-sm font-semibold text-text-secondary">
           지역
         </span>
         <FilterGroup
@@ -69,7 +88,29 @@ export default function FilterBar({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
+        <span className="w-16 shrink-0 text-sm font-semibold text-text-secondary">
+          플랫폼
+        </span>
+        <FilterGroup
+          options={PLATFORMS}
+          selected={selectedPlatform}
+          onSelect={setSelectedPlatform}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <span className="w-16 shrink-0 text-sm font-semibold text-text-secondary">
+          카테고리
+        </span>
+        <FilterGroup
+          options={CATEGORIES}
+          selected={selectedCategory}
+          onSelect={setSelectedCategory}
+        />
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-center gap-3">
+        <span className="w-16 shrink-0 text-sm font-semibold text-text-secondary">
           티어
         </span>
         <FilterGroup
@@ -85,7 +126,7 @@ export default function FilterBar({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
+        <span className="w-16 shrink-0 text-sm font-semibold text-text-secondary">
           3축
         </span>
         <AxisFilterGroup
@@ -96,13 +137,18 @@ export default function FilterBar({
       </div>
 
       <div className="mt-3 flex flex-wrap items-center gap-3">
-        <span className="w-12 shrink-0 text-sm font-semibold text-text-secondary">
+        <span className="w-16 shrink-0 text-sm font-semibold text-text-secondary">
           정렬
         </span>
         <FilterGroup
           options={SORTS}
           selected={selectedSort}
           onSelect={setSelectedSort}
+        />
+        <RateRangeDropdown
+          rateMin={rateMin}
+          rateMax={rateMax}
+          onChangeRateRange={onChangeRateRange}
         />
       </div>
 

@@ -1,5 +1,6 @@
 import Card from '../common/Card';
 import { FilterPill } from '../common/FilterPill';
+import FollowerRangeDropdown from './FollowerRangeDropdown';
 
 export { FilterPill };
 
@@ -46,6 +47,9 @@ export default function FilterBar({
   setSelectedRegion,
   selectedTier,
   setSelectedTier,
+  followerMin,
+  followerMax,
+  onChangeFollowerRange,
   selectedAxes,
   onToggleAxis,
   selectedSort,
@@ -72,6 +76,11 @@ export default function FilterBar({
           options={TIERS}
           selected={selectedTier}
           onSelect={setSelectedTier}
+        />
+        <FollowerRangeDropdown
+          followerMin={followerMin}
+          followerMax={followerMax}
+          onChangeFollowerRange={onChangeFollowerRange}
         />
       </div>
 

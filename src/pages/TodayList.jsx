@@ -12,6 +12,7 @@ import { useFavorite } from '../hooks/useFavorite';
 import { filterInfluencers } from '../utils/filterInfluencers';
 import { sortInfluencers, SORT_DEFAULT } from '../utils/sortInfluencers';
 import { createTrialPlaceholders } from '../utils/trialPlaceholder';
+import { FOLLOWER_MIN_BOUND, FOLLOWER_UNBOUNDED_MAX } from '../utils/followerRange';
 
 const TRIAL_VISIBLE_COUNT = 20;
 const TRIAL_PLACEHOLDER_COUNT = 8;
@@ -29,6 +30,9 @@ export default function TodayList() {
   const [viewMode, setViewMode] = useState('trial');
   const [selectedRegion, setSelectedRegion] = useState('전체');
   const [selectedTier, setSelectedTier] = useState('전체');
+  // 팔로워수 범위(드롭다운 프리셋/직접입력/슬라이더 공용). 티어 버튼과 배타적으로 동작한다
+  const [followerMin, setFollowerMin] = useState(FOLLOWER_MIN_BOUND);
+  const [followerMax, setFollowerMax] = useState(FOLLOWER_UNBOUNDED_MAX);
   // 3축(가용성/적합도/성과) 다중 선택 상태. 비어있으면 '전체'를 의미한다
   const [selectedAxes, setSelectedAxes] = useState(new Set());
   const [selectedSort, setSelectedSort] = useState(SORT_DEFAULT);
@@ -56,6 +60,20 @@ export default function TodayList() {
 
       return next;
     });
+  };
+
+  // 티어 버튼(전체/메가/미드/나노)을 선택하면 팔로워수 범위 필터는 기본값(전체 구간)으로 초기화한다
+  const handleSelectTier = (nextTier) => {
+    setSelectedTier(nextTier);
+    setFollowerMin(FOLLOWER_MIN_BOUND);
+    setFollowerMax(FOLLOWER_UNBOUNDED_MAX);
+  };
+
+  // 팔로워수 범위(프리셋/직접입력/슬라이더)를 조정하면 티어 버튼 선택은 '전체'로 자동 해제한다
+  const handleChangeFollowerRange = (min, max) => {
+    setFollowerMin(min);
+    setFollowerMax(max);
+    setSelectedTier('전체');
   };
 
   // 내 브랜드의 구독 tier를 조회한다.
@@ -115,6 +133,8 @@ export default function TodayList() {
       selectedRegion,
       selectedTier,
       selectedAxes,
+      followerMin,
+      followerMax,
     }).filter((influencer) => !excludedIds.has(influencer.id)),
     selectedSort
   );
@@ -205,12 +225,15 @@ export default function TodayList() {
           <span>›</span>
         </div>
 
-        <div className="mt-6">
+        <div className="relative z-20 mt-6">
           <FilterBar
             selectedRegion={selectedRegion}
             setSelectedRegion={setSelectedRegion}
             selectedTier={selectedTier}
-            setSelectedTier={setSelectedTier}
+            setSelectedTier={handleSelectTier}
+            followerMin={followerMin}
+            followerMax={followerMax}
+            onChangeFollowerRange={handleChangeFollowerRange}
             selectedAxes={selectedAxes}
             onToggleAxis={handleToggleAxis}
             selectedSort={selectedSort}

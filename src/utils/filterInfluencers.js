@@ -1,3 +1,5 @@
+import { FOLLOWER_MIN_BOUND, FOLLOWER_UNBOUNDED_MAX } from './followerRange';
+
 // FilterBar에서 사용하는 한글 라벨 -> 실제 데이터의 tier 값 매핑
 const TIER_MAP = {
   메가: 'MEGA',
@@ -25,13 +27,17 @@ const REGION_MAP = {
  * @param {string} options.selectedRegion - FilterBar에서 선택된 지역 (한글 라벨, '전체'면 전체 노출)
  * @param {string} options.selectedTier - FilterBar에서 선택된 등급 (한글 라벨, '전체'면 전체 노출)
  * @param {Set<string>} [options.selectedAxes] - FilterBar에서 선택된 3축 라벨 집합 (비어있으면 전체 노출)
+ * @param {number} [options.followerMin] - 팔로워수 드롭다운에서 선택된 하한 (FOLLOWER_MIN_BOUND면 하한 없음)
+ * @param {number} [options.followerMax] - 팔로워수 드롭다운에서 선택된 상한 (FOLLOWER_UNBOUNDED_MAX면 상한 없음)
  * @returns {object[]} 필터링된 influencer 목록
  */
 export function filterInfluencers(
   influencers,
-  { selectedRegion, selectedTier, selectedAxes }
+  { selectedRegion, selectedTier, selectedAxes, followerMin, followerMax }
 ) {
   const axes = selectedAxes ?? new Set();
+  const minFollowers = followerMin ?? FOLLOWER_MIN_BOUND;
+  const maxFollowers = followerMax ?? FOLLOWER_UNBOUNDED_MAX;
 
   return influencers.filter((influencer) => {
     const matchesRegion =
@@ -40,7 +46,17 @@ export function filterInfluencers(
       selectedTier === '전체' || influencer.tier === TIER_MAP[selectedTier];
     const matchesAvailability = !axes.has('가용성') || influencer.isAvailable === true;
     const matchesGuideFit = !axes.has('적합도') || influencer.isGuideFit === true;
+    const matchesFollowersMin =
+      minFollowers <= FOLLOWER_MIN_BOUND || influencer.followers >= minFollowers;
+    const matchesFollowersMax = influencer.followers <= maxFollowers;
 
-    return matchesRegion && matchesTier && matchesAvailability && matchesGuideFit;
+    return (
+      matchesRegion &&
+      matchesTier &&
+      matchesAvailability &&
+      matchesGuideFit &&
+      matchesFollowersMin &&
+      matchesFollowersMax
+    );
   });
 }

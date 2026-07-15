@@ -112,12 +112,11 @@ export default function TodayList() {
   // 기존 필터링 결과에서, 페이지 진입 시점에 이미 저장되어 있던 인플루언서만 제외하고 rate_card 기준으로 정렬한다
   const filteredInfluencers = sortInfluencers(
     filterInfluencers(influencers, {
-      isTrial,
       selectedRegion,
       selectedTier,
       selectedAxes,
     }).filter((influencer) => !excludedIds.has(influencer.id)),
-    isTrial ? SORT_DEFAULT : selectedSort
+    selectedSort
   );
 
   // 3축 버튼 선택이 바뀔 때마다 필터링된 데이터 개수를 로그로 확인한다
@@ -208,7 +207,6 @@ export default function TodayList() {
 
         <div className="mt-6">
           <FilterBar
-            isTrial={isTrial}
             selectedRegion={selectedRegion}
             setSelectedRegion={setSelectedRegion}
             selectedTier={selectedTier}

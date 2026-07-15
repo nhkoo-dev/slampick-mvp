@@ -20,6 +20,8 @@ const SELECT_BY_MODE = {
     engagement_rate,
     thumbnail_url,
     status,
+    category,
+    age_group,
     influencer_availability!inner(
       available_from,
       available_until
@@ -41,6 +43,8 @@ const SELECT_BY_MODE = {
     real_views,
     thumbnail_url,
     status,
+    category,
+    age_group,
     is_barter,
     barter_reason,
     rate_card

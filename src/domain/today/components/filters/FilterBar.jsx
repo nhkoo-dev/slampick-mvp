@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import Card from '../../../../components/common/Card';
-import { FilterPill } from '../../../../components/common/FilterPill';
+import Card from '../../../../global/components/common/Card';
+import { FilterPill } from '../../../../global/components/common/FilterPill';
 import PrimaryFilters from './PrimaryFilters';
 import AdvancedFilters from './AdvancedFilters';
 

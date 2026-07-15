@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { formatFollowersLabel } from '../../../../utils/influencerFormat';
+import { formatFollowersLabel } from '../../../../global/utils/influencerFormat';
 import {
   FOLLOWER_MIN_BOUND,
   FOLLOWER_MAX_BOUND,

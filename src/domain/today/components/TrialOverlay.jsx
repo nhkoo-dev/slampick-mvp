@@ -1,5 +1,5 @@
-import InfluencerCard from '../../../components/common/InfluencerCard';
-import Button from '../../../components/common/Button';
+import InfluencerCard from '../../../global/components/common/InfluencerCard';
+import Button from '../../../global/components/common/Button';
 
 /**
  * trial 화면 전용 구독 유도 오버레이.

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/Header';
-import GuideFilterBar from '../components/guide/GuideFilterBar';
-import InfluencerCard from '../components/common/InfluencerCard';
-import { getInfluencers } from '../repositories/influencerRepository';
+import Header from '../../global/components/common/Header';
+import GuideFilterBar from './components/GuideFilterBar';
+import InfluencerCard from '../../global/components/common/InfluencerCard';
+import { getInfluencers } from '../../global/repositories/influencerRepository';
 
 const STATS = [
   { label: '업로드 완수율', value: '92%', valueColor: 'text-blue-600' },

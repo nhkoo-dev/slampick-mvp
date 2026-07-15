@@ -1,4 +1,4 @@
-import { FilterPill } from '../../../../components/common/FilterPill';
+import { FilterPill } from '../../../../global/components/common/FilterPill';
 
 export function FilterGroup({ options, selected, onSelect }) {
   return options.map((option) => (

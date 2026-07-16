@@ -1,4 +1,4 @@
-import { FilterPill } from '../common/FilterPill';
+import { FilterPill } from '../../../global/components/common/FilterPill';
 
 const REGIONS = ['전체', '중화권', '영어권', 'US-글로벌'];
 

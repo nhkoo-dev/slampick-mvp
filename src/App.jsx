@@ -1,13 +1,13 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { ROUTES } from './config/constants';
-import { useAuth } from './context/AuthContext';
-import Home from './pages/Home';
-import TodayList from './pages/TodayList';
-import MyPage from './pages/MyPage';
-import Guide from './pages/Guide';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Admin from './pages/Admin';
+import { ROUTES } from './global/config/constants';
+import { useAuth } from './global/context/AuthContext';
+import Home from './domain/home/Home';
+import TodayList from './domain/today/TodayList';
+import MyPage from './domain/mypage/MyPage';
+import Guide from './domain/guide/Guide';
+import Login from './domain/auth/Login';
+import Signup from './domain/auth/Signup';
+import Admin from './domain/admin/Admin';
 
 // '/' 경로 전용 분기: 로그인 상태면 오늘의 리스트로, 아니면 랜딩 페이지(Home)로 보낸다
 function HomeRoute() {

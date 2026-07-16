@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import Header from '../components/common/Header';
-import InfluencerCard from '../components/common/InfluencerCard';
-import { getMyBrand } from '../repositories/brandRepository';
-import { useFavorite } from '../hooks/useFavorite';
+import Header from '../../global/components/common/Header';
+import InfluencerCard from '../../global/components/common/InfluencerCard';
+import { getMyBrand } from '../../global/repositories/brandRepository';
+import { useFavorite } from '../../global/hooks/useFavorite';
 
 export default function MyPage() {
   const [influencers, setInfluencers] = useState([]);

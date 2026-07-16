@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Header from '../components/common/Header';
-import Button from '../components/common/Button';
-import { ROUTES } from '../config/constants';
-import { supabase } from '../supabase/client';
-import { createBrand } from '../repositories/brandRepository';
+import Header from '../../global/components/common/Header';
+import Button from '../../global/components/common/Button';
+import { ROUTES } from '../../global/config/constants';
+import { supabase } from '../../global/supabase/client';
+import { createBrand } from '../../global/repositories/brandRepository';
 
 const USER_TYPES = [
   { value: 'brand', label: '브랜드' },
